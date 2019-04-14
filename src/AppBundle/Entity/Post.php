@@ -1,0 +1,286 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * post
+ *
+ * @ORM\Table(name="post")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\postRepository")
+ */
+class Post
+{
+    //RELACIONES
+
+    /**
+     * En un post pueden haber varios comentarios
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post_id")
+     */
+    private $comments;
+
+    /**
+     * Muchos usuarios pueden seguir a muchos usuarios.
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="like",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime")
+     */
+    private $createAt;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="update_at", type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="video", type="string", length=500)
+     */
+    private $video;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="views", type="integer", nullable=true)
+     */
+    private $views;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param string $description
+     *
+     * @return post
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set createAt.
+     *
+     * @param \DateTime $createAt
+     *
+     * @return post
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set updateAt.
+     *
+     * @param \DateTime|null $updateAt
+     *
+     * @return post
+     */
+    public function setUpdateAt($updateAt = null)
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updateAt.
+     *
+     * @return \DateTime|null
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * Set video.
+     *
+     * @param string $video
+     *
+     * @return post
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * Get video.
+     *
+     * @return string
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * Set views.
+     *
+     * @param int|null $views
+     *
+     * @return post
+     */
+    public function setViews($views = null)
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Get views.
+     *
+     * @return int|null
+     */
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    /**
+     * Add like.
+     *
+     * @param \AppBundle\Entity\User $like
+     *
+     * @return post
+     */
+    public function addLike(\AppBundle\Entity\User $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like.
+     *
+     * @param \AppBundle\Entity\User $like
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeLike(\AppBundle\Entity\User $like)
+    {
+        return $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Add comment.
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Post
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment.
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        return $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+}
