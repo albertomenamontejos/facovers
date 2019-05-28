@@ -27,7 +27,8 @@ framework:
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
-    assets: ~
+    assets:
+        json_manifest_path: '%kernel.project_dir%/web/build/manifest.json'
     php_errors:
         log: true
 
@@ -72,3 +73,29 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+webpack_encore:
+    output_path: "%kernel.root_dir%/../web/build/"
+
+vich_uploader:
+    db_driver: orm
+    storage:   flysystem
+
+    mappings:
+        assets:
+            uri_prefix:         %assets_uri%
+            upload_destination: assets_fs
+            namer:              vich_uploader.namer_uniqid
+
+oneup_flysystem:
+    adapters:
+        assets_adapter:
+            awss3v3:
+                client: app.assets.s3
+                bucket: %assets_bucket%
+                prefix: assets
+
+    filesystems:
+        assets_fs:
+            adapter:    assets_adapter
+            mount:      assets_fs

@@ -1,0 +1,28 @@
+.page{
+  display:flex;
+  flex-direction:column;
+  .nav{
+    height:65px;
+  }
+  .page-content,
+  .page-content-simple{
+    display:flex;
+    flex-flow:row nowrap;
+    margin-top:65px;
+    min-height: calc(100vh - 60px);
+  }
+  .page-content{
+    .aside{
+      width:$columna-izq;
+      //min-width:265px;
+    }
+    .section{
+      width:$columna-der;
+    }
+  }
+  .page-content-simple{
+    .section{
+      width:100%;
+    }
+  }
+}

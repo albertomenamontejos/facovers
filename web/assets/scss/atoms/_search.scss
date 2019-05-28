@@ -1,0 +1,25 @@
+.caja-busqueda{
+  .input-busqueda{
+    position:relative;
+    .icon{
+      position: absolute;
+      top: 29%;
+      margin-left: 17px;
+      margin-top: 0px;
+      z-index: 1;
+      color: #82919c;
+    }
+
+    #search {
+      background: rgb(250, 250, 250);
+      border: 0;
+      border: 1px solid $primario-claro;
+      width: 500px;
+      border-radius: 3px;
+      padding:10px;
+      color: $fuente;
+      outline: transparent;
+      padding-left: 45px;
+    }
+  }
+}

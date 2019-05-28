@@ -33,3 +33,14 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    app.assets.s3:
+        class: Aws\S3\S3Client
+        arguments:
+            -
+                version: 'latest'
+                region: %assets_region%
+                credentials:
+                    key: %assets_key%
+                    secret: %assets_secret%
+

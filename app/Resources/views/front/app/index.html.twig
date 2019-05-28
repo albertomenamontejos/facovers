@@ -1,0 +1,45 @@
+{% extends '/front/layout/layout.html.twig' %}
+
+{% block section %}
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post">
+                <div class="header">
+                    <div class="user">
+                        <a href="#">Nombre de usuario</a>
+                    </div>
+                    <div class="follow">
+                        <button class="follow-user">Seguir</button>
+                    </div>
+                </div>
+                <video class="video" controls>
+                    <source src="{{ post }}" type="video/mp4">
+                    <source src="{{ post }}" type="video/ogg">
+                    Your browser does not support HTML5 video.
+                </video>
+                <div class="details">
+                    <div class="sing">
+                        <p class="title">Titulo de la canción</p>
+                    </div>
+                    <div class="artist">
+                        <p class="name">Artista</p>
+                    </div>
+                </div>
+                <div class="interacciones">
+                    <div class="like">
+                        <i class="icon icon-cor"></i>
+                    </div>
+                    <div class="comments">
+                        <i class="icon icon-comments"></i>
+                    </div>
+                    <div class="share">
+                        <i class="icon icon-share"></i>
+                    </div>
+                    <div class="navdot">
+                        <i class="icon icon-navdot"></i>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

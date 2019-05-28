@@ -1,0 +1,31 @@
+/* assets/css/app.css */
+
+
+//General
+@import 'general/normalize';
+@import 'general/variables';
+//Atoms
+@import 'atoms/search';
+@import 'atoms/icons';
+//Molecules
+@import 'molecules/post';
+//Organisms
+@import 'organisms/nav';
+@import 'organisms/aside';
+@import 'organisms/section';
+//Templates
+@import 'templates/layout';
+@import 'templates/registro';
+@import 'templates/login';
+//Pages
+*{
+  box-sizing:border-box ;
+  margin:0;
+  padding:0;
+}
+body{
+  font-size:14px;
+  font-family: Helvetica, Arial, sans-serif;
+  //line-height: 18px;
+  color:$fuente;
+}

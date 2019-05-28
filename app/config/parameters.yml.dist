@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    assets_key: "AKIASS6H4KZFT6T4WABD"
+    assets_uri: "arn:aws:iam::178123462219:user/user-facovers"
+    assets_bucket: "facovers"
+    assets_secret: "dvS153uR5ovUWZk9U8TL+ZeoR6aNmS2CpRFv+rDK"
+    assets_region: "eu-west-1"
+
+    app.path.product_images: /web/videos

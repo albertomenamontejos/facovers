@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="page">
+        {{ include('front/templates/nav.html.twig') }}
+        <main id="index" class="page-content">
+            <aside class="aside">
+                {% block aside %}{% endblock %}
+            </aside>
+            <section class="section">
+                {% block section %}{% endblock %}
+            </section>
+        </main>
+        <footer class="footer">
+            {% block footer %}{% endblock %}
+        </footer>
+    </div>
+{% endblock %}

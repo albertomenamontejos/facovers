@@ -1,0 +1,47 @@
+<nav class="nav">
+    <div class="logo">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="">
+    </div>
+    <div class="caja-busqueda">
+        <div class="input-busqueda">
+            <span class="icon"><i class="fa fa-search"></i></span>
+            <input type="search" id="search" placeholder="Buscar cancion, artista, @usuario, #hashtag">
+        </div>
+    </div>
+    <div class="botones">
+        {% if app.user %}
+            <div class="menu">
+                <ul class="iconos-menu">
+                    <li class="icon icon-cuenta">
+                            <i class="far fa-user fa-2x"></i>
+                        <ul class="menu-desplegable">
+                            <ul>
+                                <li>
+                                    <div class="icon icon-perfil">
+                                        <i class="fas fa-upload"></i>
+                                        <a href="{{ path('upload') }}">Subir video</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon icon-perfil">
+                                        <i class="fas fa-pen"></i>
+                                        <a href="#">Mi perfil</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon icon-perfil">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <a href="{{ path('logout') }}">Cerrar sesión</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <a href="{{ path('user_registration') }}">Registrate</a>
+            <a href="{{ path('login') }}">Iniciar sesion</a>
+        {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,7 @@
+AppBundle\Entity\Post:
+  properties:
+    videoFile:
+      - File:
+          maxSize: 1024M
+          mimeTypes: [video/webm, video/ogg,video/mp4,video/x-msvideo,video/quicktime]
+          mimeTypesMessage: Please upload a valid video

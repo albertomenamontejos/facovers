@@ -4,44 +4,25 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * user
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
-    //RELACIONES
-
-    /**
-     * Muchos usuarios pueden seguir a un usuario.
-     * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="follow",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="followed_id", referencedColumnName="id")}
-     *      )
-     */
-    private $followed; //Personas que sigo.
-
-    /**
-     * A un usuario le pertenecen muchos comentarios
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user_id")
-     */
-    private $comments;
-
-    /**
-     * Un usuario puede crear muchos eventos
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="user_id")
-     */
-    private $events;
-
     public function __construct()
     {
         $this->followed = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
     // FIN RELACIONES
 
@@ -56,29 +37,63 @@ class User
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 40,
+     *      minMessage = "Su nombre de usuario debe contener mínimo {{ limit }} caracteres",
+     *      maxMessage = "Su nombre de usuario debe contener como máximo {{ limit }} caracteres"
+     * )
      * @ORM\Column(name="username", type="string", length=40, unique=true)
      */
     private $username;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 60,
+     *      minMessage = "Su email debe contener mínimo {{ limit }} caracteres",
+     *      maxMessage = "Su email debe contener como máximo {{ limit }} caracteres"
+     * )
+     * @Assert\Email(
+     *     message = "El correo '{{ value }}' no es válido.",
+     *     checkMX = true
+     * )
+     * @ORM\Column(name="email", type="string", length=60, unique=true)
      */
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
+     * The below length depends on the "algorithm" you use for encoding
+     * the password, but this works well with bcrypt.
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 60,
+     *      minMessage = "La contraseña de tener un mínimo de {{ limit }} caracteres",
+     *      maxMessage = "La contraseña debe tener un máximo de {{ limit }} caracteres"
+     * )
+     * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 40,
+     *      minMessage = "Su nombre completo debe contener mínimo {{ limit }} caracteres",
+     *      maxMessage = "Su nombre completo debe contener como máximo {{ limit }} caracteres"
+     * )
+     * @ORM\Column(name="name", type="string", length=40)
      */
     private $name;
 
@@ -90,19 +105,17 @@ class User
     private $bio;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="bday", type="datetime")
-     */
-    private $bday;
-
-    /**
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=500, nullable=true)
      */
     private $photo;
 
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
 
     /**
      * Get id.
@@ -163,30 +176,6 @@ class User
     }
 
     /**
-     * Set password.
-     *
-     * @param string $password
-     *
-     * @return user
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password.
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
      * Set name.
      *
      * @param string $name
@@ -235,30 +224,6 @@ class User
     }
 
     /**
-     * Set bday.
-     *
-     * @param \DateTime $bday
-     *
-     * @return user
-     */
-    public function setBday($bday)
-    {
-        $this->bday = $bday;
-
-        return $this;
-    }
-
-    /**
-     * Get bday.
-     *
-     * @return \DateTime
-     */
-    public function getBday()
-    {
-        return $this->bday;
-    }
-
-    /**
      * Set photo.
      *
      * @param string|null $photo
@@ -282,6 +247,67 @@ class User
         return $this->photo;
     }
 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getSalt()
+    {
+        // The bcrypt and argon2i algorithms don't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+
+
+    //RELACIONES
+
+    /**
+     * Muchos usuarios pueden seguir a un usuario.
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="follow",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="followed_id", referencedColumnName="id")}
+     *      )
+     */
+    private $followed; //Personas que sigo.
+
+    /**
+     * A un usuario le pertenecen muchos comentarios
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user_id")
+     */
+    private $comments;
+
+    /**
+     * Un usuario puede crear muchos eventos
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="user_id")
+     */
+    private $events;
 
     /**
      * Add followed.
@@ -390,4 +416,5 @@ class User
     {
         return $this->events;
     }
+
 }
