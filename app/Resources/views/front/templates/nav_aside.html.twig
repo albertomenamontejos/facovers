@@ -1,0 +1,38 @@
+<div class="botones">
+    <div class="menu">
+        <div class="icon ">
+            <a href="#">
+                <img src="{{ asset('assets/img/user.png') }}" alt="">
+            </a>
+        </div>
+        <div class="icon">
+            <a href="{{ path('upload') }}">
+                <img src="{{ asset('assets/img/upload.png') }}"  alt="">
+            </a>
+        </div>
+        <div class="icon">
+            <a href="{{ path('logout') }}">
+                <img src="{{ asset('assets/img/logout.png') }}" alt="">
+            </a>
+        </div>
+    </div>
+{#    {% if app.user %}#}
+{#        <div class="menu">#}
+{#            <div class="icon icon-perfil">#}
+{#                <i class="fas fa-upload"></i>#}
+{#                <a href="{{ path('upload') }}">Subir video</a>#}
+{#            </div>#}
+{#            <div class="icon icon-perfil">#}
+{#                <i class="fas fa-pen"></i>#}
+{#                <a href="#">Mi perfil</a>#}
+{#            </div>#}
+{#            <div class="icon icon-perfil">#}
+{#                <i class="fas fa-sign-out-alt"></i>#}
+{#                <a href="{{ path('logout') }}">Cerrar sesión</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% else %}#}
+{#        <a href="{{ path('user_registration') }}">Registrate</a>#}
+{#        <a href="{{ path('login') }}">Iniciar sesion</a>#}
+{#    {% endif %}#}
+</div>

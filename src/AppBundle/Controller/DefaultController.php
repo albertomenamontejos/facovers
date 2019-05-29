@@ -27,29 +27,27 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request, Security $security)
     {
-        if ($security->getUser()) {
-            $list_post = $this->getDoctrine()
-                ->getRepository(Post::class)
-                ->listPosts();
-            $posts = [];
-            foreach ($list_post as $post) {
-                $posts[] = $this->getDocumentFromPrivateBucket($post->getVideoName());
-            }
 
+        $posts= $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->listPosts();
+
+        foreach ($posts as $post) {
+            //Videos recibidos por AWS S3 client
+            $post->setEnlace($this->getDocumentFromPrivateBucket($post->getVideoName()));
+            //Nombre del usuario
+            $usuario = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->loadUserByUserId($post->getUserId());
+            $post->name_user = $usuario->getUserName();
+        }
+
+        if ($security->getUser()) {
             return $this->render('/front/app/index.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
                 'posts' => $posts,
             ]);
         } else {
-            $list_post = $this->getDoctrine()
-                ->getRepository(Post::class)
-                ->listPosts();
-            $posts = [];
-            //Videos recibidos por AWS S3 client
-            foreach ($list_post as $post) {
-                $posts[] = $this->getDocumentFromPrivateBucket($post->getVideoName());
-            }
-
             return $this->render('/front/index.html.twig',[
                 'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
                 'posts'=>$posts,
@@ -70,14 +68,6 @@ class DefaultController extends Controller
             $validator = $this->get('validator');
             $errors = $validator->validate($post);
             if (count($errors) > 0) {
-                /*
-                 * Uses a __toString method on the $errors variable which is a$client = new IamClient([
-    'region' => 'us-west-2',
-    'version' => '2010-05-08'
-]);
-                 * ConstraintViolationList object. This gives us a nice string
-                 * for debugging.
-                 */
                 $errorsString = (string)$errors;
                 return new Response($errorsString);
             }

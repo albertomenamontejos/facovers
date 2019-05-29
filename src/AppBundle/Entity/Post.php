@@ -8,6 +8,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * post
  * @ORM\Table(name="post")
@@ -43,6 +44,27 @@ class Post
     private $videoName;
 
     /**
+     *
+     */
+    private $enlace;
+
+    /**
+     * @return mixed
+     */
+    public function getEnlace()
+    {
+        return $this->enlace;
+    }
+
+    /**
+     * @param mixed $enlace
+     */
+    public function setEnlace($enlace)
+    {
+        $this->enlace = $enlace;
+    }
+
+    /**
      * @ORM\Column(type="integer")
      *
      * @var integer
@@ -55,6 +77,68 @@ class Post
      * @var \DateTime
      */
     private $updatedAt;
+
+
+    /**
+     * @var string
+     * @Assert\NotBlank
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var string
+     * @Assert\NotBlank
+     * @ORM\Column(name="song", type="text")
+     */
+    private $song;
+
+    /**
+     * @var string
+     * @Assert\NotBlank
+     * @ORM\Column(name="artist", type="text")
+     */
+    private $artist;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="views", type="integer", nullable=true)
+     */
+    private $views;
+
+    /**
+     * En un post pueden haber varios comentarios
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post_id")
+     */
+    private $comments;
+
+    /**
+     * Muchos usuarios pueden seguir a muchos usuarios.
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="like",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $likes;
+
+    //RELACIONES
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user_id;
+
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
 
     /**
      * Si cargar un archivo manualmente (es decir, no usar el formulario de Symfony) asegure una instancia
@@ -116,14 +200,6 @@ class Post
     {
         $this->updatedAt = $updatedAt;
     }
-    //RELACIONES
-
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user_id;
 
     /**
      * @return mixed
@@ -140,44 +216,6 @@ class Post
     {
         $this->user_id = $user_id;
     }
-
-    /**
-     * En un post pueden haber varios comentarios
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post_id")
-     */
-    private $comments;
-
-    /**
-     * Muchos usuarios pueden seguir a muchos usuarios.
-     * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="like",
-     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
-     */
-    private $likes;
-
-    public function __construct()
-    {
-        $this->likes = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
-
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="views", type="integer", nullable=true)
-     */
-    private $views;
 
     /**
      * Get id.
@@ -261,6 +299,38 @@ class Post
     public function removeLike(\AppBundle\Entity\User $like)
     {
         return $this->likes->removeElement($like);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSong()
+    {
+        return $this->song;
+    }
+
+    /**
+     * @param string $song
+     */
+    public function setSong($song)
+    {
+        $this->song = $song;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArtist()
+    {
+        return $this->artist;
+    }
+
+    /**
+     * @param string $artist
+     */
+    public function setArtist($artist)
+    {
+        $this->artist = $artist;
     }
 
     /**

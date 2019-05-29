@@ -4,7 +4,9 @@
         {{ include('front/templates/nav.html.twig') }}
         <main id="index" class="page-content">
             <aside class="aside">
-                {% block aside %}{% endblock %}
+                {% block aside %}
+                    {{ include('front/templates/nav_aside.html.twig') }}
+                {% endblock %}
             </aside>
             <section class="section">
                 {% block section %}{% endblock %}
