@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Form;
 use AppBundle\Entity\User;
+//use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,6 +10,8 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 
 class UploadPostType extends AbstractType
@@ -16,6 +19,20 @@ class UploadPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('song', TextType::class, [
+                'label' => false,
+                'required' => true,
+                'attr' => array(
+                    'placeholder' => 'Nombre de la canción',
+                )
+            ])
+            ->add('artist', TextType::class, [
+                'label' => false,
+                'required' => true,
+                'attr' => array(
+                    'placeholder' => 'Nombre del artista/autor',
+                )
+            ])
             ->add('videoFile', VichFileType::class, [
             'label'         => false,
             'required'      => false,

@@ -1,4 +1,25 @@
 .aside{
   background: $primario-oscuro;
   color:white;
+  .botones{
+    position:absolute;
+    top:93%;
+    width:$columna-izq;
+    .menu{
+      padding-top:22px;
+      display:flex;
+      justify-content: space-evenly;
+      flex-flow:row nowrap;
+      .icon{
+        display:flex;
+        flex-direction:column;
+        text-align: center;
+        border-radius:50%;
+        max-width:80px;
+        img{
+          width:23px;
+        }
+      }
+    }
+  }
 }
