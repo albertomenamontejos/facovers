@@ -2,7 +2,10 @@
 {% block body %}
     <main class="page">
         {{ include('front/templates/nav.html.twig') }}
-        {%if app.request.requestUri == '/'%}
+        {%if app.request.requestUri == '/' or
+            app.request.requestUri == '/login' or
+            app.request.requestUri == '/registro'
+        %}
         <div class="inicio_sesion">
             <a href="{{ path('user_registration') }}">
                 <div class="btn">
