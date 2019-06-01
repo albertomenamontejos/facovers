@@ -2,13 +2,12 @@
 
 {% block section  %}
     <div class="pagina-registro">
-       <div class="imagen">
-           <img src="{{ asset('assets/img/bg-registro.jpg') }}" alt="">
-       </div>    
         <div class="form">
 {#            {{ dump(form) }}#}
+            {{ include('front/templates/login_registro.html.twig') }}
 
             {{ form_start(form,{attr: {class: 'form-registro'} }) }}
+
             {{ form_widget(form) }}
 {#            {{ form_widget(form.username) }}#}
 {#            {{ form_widget(form.email) }}#}
