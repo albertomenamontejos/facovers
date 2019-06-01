@@ -1,76 +1,99 @@
-.page{
-  display:flex;
-  flex-direction:column;
+.page {
+  display: flex;
+  flex-direction: column;
 
-  .nav{
-    height:65px;
+  .nav {
+    height: 65px;
   }
+
   .page-content,
-  .page-content-simple{
-    display:flex;
-    flex-flow:row nowrap;
-    margin-top:65px;
+  .page-content-simple {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 65px;
     min-height: calc(100vh - 60px);
   }
 
-  .page-content{
-    .aside{
-      width:$columna-izq;
+  .page-content {
+    .aside {
+      width: $columna-izq;
       //min-width:265px;
     }
-    .section{
-      width:$columna-der;
-      margin:0 auto;
+
+    .section {
+      width: $columna-der;
+      margin: 20px auto;
     }
   }
-  .page-content-simple{
-    margin-top:0;
 
-    .section{
-      width:100%;
-      margin:0 auto;
+  .page-content-simple {
+    margin-top: 0;
 
+    .section {
+      width: 100%;
+      margin: 0 auto;
     }
   }
-  .inicio_sesion{
-    width:100%;
-    margin-top:3.4% ;
-    margin-bottom:1% ;
-    display:flex;
-    flex-flow:row nowrap;
-    justify-content: center;
-    background: $primario;
-    padding:30px;
-    a{
-      text-decoration: none;
 
-    }
+  .inicio_sesion {
+    .capa {
+      width: 100%;
+      //margin-top: 65px;
+      display: flex;
+      flex-flow: row nowrap;
+      height: 65px;
+      background: transparent;
+      justify-content: center;
+      a {
+        text-decoration: none;
 
-    .btn{
-      text-align: center;
-      background: #fff;
-      color:$primario;
-      padding:10px;
-      width:247px;
-      border:1px solid $primario-oscuro;
-      cursor:pointer;
-      font-weight: bold;
-      margin:3px;
-      &:nth-child(1){
-        -webkit-border-radius: 3px 0 0 3px;
-        -moz-border-radius: 3px 0 0 3px;
-        border-radius: 3px 0 0 3px;
+        &:nth-child(1) .btn {
+          -webkit-border-radius: 3px 0 0 3px;
+          -moz-border-radius: 3px 0 0 3px;
+          border-radius: 3px 0 0 3px;
+        }
+
+        &:nth-child(2) .btn {
+          -webkit-border-radius: 0 3px 3px 0;
+          -moz-border-radius: 0 3px 3px 0;
+          border-radius: 0 3px 3px 0;
+        }
       }
-      &:nth-child(2){
-        -webkit-border-radius: 0 3px 3px 0;
-        -moz-border-radius: 0 3px 3px 0;
-        border-radius: 0 3px 3px 0;
+
+      .btn {
+        text-align: center;
+        background: #fff;
+        color: $primario;
+        padding: 10px;
+        width: 220px;
+        border: 1px solid $primario-oscuro;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 3px;
+
+        &:hover {
+          color: white;
+          background: $primario-oscuro;
+          border: 1px solid white;
+        }
       }
-      &:hover{
-          color:white;
-        background: $primario-oscuro;
-        border:1px solid white;
+
+      .logo {
+        display: flex;
+        justify-content: flex-start;
+        min-width: 265px;
+      }
+
+      .botones {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
       }
     }
   }
+}
+
+.margin-top-65{
+  margin-top:65px;
 }

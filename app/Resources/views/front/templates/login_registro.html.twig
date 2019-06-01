@@ -1,0 +1,26 @@
+{% if app.request.requestUri == '/' or
+    app.request.requestUri == '/login' or
+    app.request.requestUri == '/registro' %}
+    {% if app.request.requestUri == '/' %}
+        <div class="margin-top-65">
+    {% endif %}
+    <div class="inicio_sesion">
+        <div class="capa">
+            <div class="botones">
+                <a href="{{ path('user_registration') }}">
+                    <div class="btn">
+                        Registrate
+                    </div>
+                </a>
+                <a href="{{ path('login') }}">
+                    <div class="btn">
+                        Iniciar sesion
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% if app.request.requestUri == '/' %}
+        </div>
+    {% endif %}
+{% endif %}
