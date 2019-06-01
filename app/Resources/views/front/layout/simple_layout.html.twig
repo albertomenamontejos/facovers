@@ -2,25 +2,7 @@
 {% block body %}
     <main class="page">
         {{ include('front/templates/nav.html.twig') }}
-        {%if app.request.requestUri == '/' or
-            app.request.requestUri == '/login' or
-            app.request.requestUri == '/registro'
-        %}
-        <div class="inicio_sesion">
-            <a href="{{ path('user_registration') }}">
-                <div class="btn">
-                    Registrate
-                </div>
-            </a>
-            <a href="{{ path('login') }}">
-                <div class="btn">
-                    Iniciar sesion
-                </div>
-            </a>
-        </div>
-        {% endif %}
         <div class="page-content-simple">
-
             <section class="section">
                 {% block section %}{% endblock %}
             </section>

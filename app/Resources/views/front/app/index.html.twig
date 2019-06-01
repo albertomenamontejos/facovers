@@ -11,11 +11,14 @@
                         <button class="follow-user">Seguir</button>
                     </div>
                 </div>
-                <video class="video" controls>
-                    <source src="{{ post.enlace }}" type="video/mp4">
-                    <source src="{{ post.enlace }}" type="video/ogg">
-                    Your browser does not support HTML5 video.
-                </video>
+                <div class="video">
+                    <video  >
+                        <source src="{{ post.enlace }}" type="video/mp4">
+                        <source src="{{ post.enlace }}" type="video/ogg">
+                        Your browser does not support HTML5 video.
+                    </video>
+                </div>
+
                 <div class="details">
                     <div class="sing">
                         <p class="title">{{ post.song }}</p>
