@@ -23,5 +23,4 @@ parameters:
     assets_bucket: "facovers"
     assets_secret: "dvS153uR5ovUWZk9U8TL+ZeoR6aNmS2CpRFv+rDK"
     assets_region: "eu-west-1"
-
-    app.path.product_images: /web/videos
+    assets_version: "lasted"
