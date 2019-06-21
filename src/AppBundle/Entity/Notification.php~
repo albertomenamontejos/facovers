@@ -1,0 +1,117 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * Notification
+ *
+ * @ORM\Table(name="Notification")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @Vich\Uploadable
+ */
+class Notification{
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer|null
+     * @ORM\Column(name="id_followed",type="integer")
+     */
+   private $id_followed;
+
+    /**
+     * @var string|null
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+   private $content;
+
+    /**
+     * Many features have one product. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIdFollowed()
+    {
+        return $this->id_followed;
+    }
+
+    /**
+     * @param int|null $id_followed
+     */
+    public function setIdFollowed($id_followed)
+    {
+        $this->id_followed = $id_followed;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string|null $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+}

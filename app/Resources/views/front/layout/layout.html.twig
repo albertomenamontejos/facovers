@@ -1,6 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_app.html.twig' %}
 {% block body %}
     <div class="page">
+        {% if result is defined %}
+            <div class="mensaje-confirmacion-ajax" style="display:none;">
+                {% if result.error %}
+                    <div class="errores">
+                        <ul>
+                            {% for error in result.errors %}
+                                <li class="mensaje">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    {% if result.confirmacion is defined %}
+                        <div class="confirmacion">
+                            <p class="mensaje">{{ result.confirmacion }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+
         {{ include('front/templates/nav.html.twig') }}
         <main id="index" class="page-content">
             <aside class="aside">
@@ -8,8 +28,9 @@
                     {{ include('front/templates/nav_aside.html.twig') }}
                 {% endblock %}
             </aside>
-            <section class="section">
+            <section class="section" id="section">
                 {% block section %}{% endblock %}
+                <div class="lds-roller" id="loader" style="display:none;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </section>
         </main>
         <footer class="footer">

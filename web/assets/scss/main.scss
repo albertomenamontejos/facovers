@@ -4,6 +4,7 @@
 //General
 @import 'general/normalize';
 @import 'general/variables';
+@import 'general/general';
 //Atoms
 @import 'atoms/search';
 @import 'atoms/icons';
@@ -17,6 +18,9 @@
 @import 'templates/layout';
 @import 'templates/registro';
 @import 'templates/login';
+@import 'templates/perfil';
+@import 'templates/explorar';
+@import 'templates/config';
 //Pages
 *{
   box-sizing:border-box ;

@@ -11,18 +11,20 @@
     display: flex;
     flex-flow: row nowrap;
     margin-top: 65px;
-    min-height: calc(100vh - 60px);
+    height:100vh;
   }
 
   .page-content {
     .aside {
-      width: $columna-izq;
-      //min-width:265px;
+      width:15%;
+      min-width:300px;
+      position:fixed;
+      height: calc(100vh - 65px);
     }
-
     .section {
-      width: $columna-der;
-      margin: 20px auto;
+      background: #f2f2f2;
+      margin-left:15%;
+      width:85%;
     }
   }
 
@@ -32,6 +34,7 @@
     .section {
       width: 100%;
       margin: 0 auto;
+      background: #f2f2f2;
     }
   }
 
@@ -95,5 +98,5 @@
 }
 
 .margin-top-65{
-  margin-top:65px;
+  margin-top:85px;
 }

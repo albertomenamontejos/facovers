@@ -1,0 +1,24 @@
+{% extends '/front/layout/layout.html.twig' %}
+{% block section %}
+    <h3>Notificaciones</h3>
+    <div class="notifications">
+        {% if notifications is defined %}
+        {% for notification in notifications %}
+            <div class="notification">
+                {% if notification.content == 'video' %}
+                    {% if notification.user.id == app.user.id%}
+                        <p></p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+
+                {% elseif notification.content == 'like' %}
+
+                {% elseif notification.content == 'comment' %}
+
+                {% endif %}
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

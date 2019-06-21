@@ -8,24 +8,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * user
  *
  * @ORM\Table(name="`user`")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @Vich\Uploadable
  */
 class User implements UserInterface
 {
-    public function __construct()
-    {
-        $this->followed = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->events = new ArrayCollection();
-        $this->roles = ['ROLE_USER'];
-    }
-    // FIN RELACIONES
 
+    // FIN RELACIONES
     /**
      * @var int
      *
@@ -34,6 +32,51 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * One Product has One Shipment.
+     * @ORM\OneToOne(targetEntity="Photo")
+     * @ORM\JoinColumn(name="photo", referencedColumnName="id")
+     */
+    private $photo;
+//
+//    /**
+//     * One product has many features. This is the inverse side.
+//     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
+//     */
+//    private $notifications;
+
+//    /**
+//     * @return mixed
+//     */
+//    public function getNotifications()
+//    {
+//        return $this->notifications;
+//    }
+//
+//    /**
+//     * @param mixed $notifications
+//     */
+//    public function setNotifications($notifications)
+//    {
+//        $this->notifications = $notifications;
+//    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photoName
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
 
     /**
      * @var string
@@ -47,6 +90,7 @@ class User implements UserInterface
      * @ORM\Column(name="username", type="string", length=40, unique=true)
      */
     private $username;
+
 
     /**
      * @var string
@@ -105,17 +149,48 @@ class User implements UserInterface
     private $bio;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photo", type="string", length=500, nullable=true)
-     */
-    private $photo;
-
-
-    /**
      * @ORM\Column(type="array")
      */
     private $roles;
+
+    //RELACIONES
+    /**
+     * Muchos usuarios pueden seguir a un usuario.
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="follow",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="followed_id", referencedColumnName="id")}
+     *      )
+     */
+    private $followed; //Personas que sigo.
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * Un usuario puede crear muchos eventos
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="user_id")
+     */
+    private $events;
+
+    /**
+     * Many posts have many posts_likes
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="likes")
+     */
+    private $posts_likes;
+
+    public function __construct()
+    {
+        $this->followed = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->posts_likes = new ArrayCollection();
+        $this->events = new ArrayCollection();
+//        $this->notifications = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
+    }
 
     /**
      * Get id.
@@ -223,30 +298,6 @@ class User implements UserInterface
         return $this->bio;
     }
 
-    /**
-     * Set photo.
-     *
-     * @param string|null $photo
-     *
-     * @return user
-     */
-    public function setPhoto($photo = null)
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Get photo.
-     *
-     * @return string|null
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
     public function getPlainPassword()
     {
         return $this->plainPassword;
@@ -284,30 +335,7 @@ class User implements UserInterface
     }
 
 
-
-    //RELACIONES
-
-    /**
-     * Muchos usuarios pueden seguir a un usuario.
-     * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="follow",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="followed_id", referencedColumnName="id")}
-     *      )
-     */
-    private $followed; //Personas que sigo.
-
-    /**
-     * A un usuario le pertenecen muchos comentarios
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user_id")
-     */
-    private $comments;
-
-    /**
-     * Un usuario puede crear muchos eventos
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="user_id")
-     */
-    private $events;
+    //MÉTODOS RELACIONES
 
     /**
      * Add followed.
@@ -319,7 +347,6 @@ class User implements UserInterface
     public function addFollowed(\AppBundle\Entity\User $followed)
     {
         $this->followed[] = $followed;
-
         return $this;
     }
 
@@ -343,6 +370,108 @@ class User implements UserInterface
     public function getFollowed()
     {
         return $this->followed;
+    }
+
+    /**
+     * Is followed.
+     *
+     * @return boolean
+     */
+    public function isFollower($id_user)
+    {
+        foreach($this->followed as $follower){
+            if($id_user == $follower->getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return User
+     */
+    public function addEvent(\AppBundle\Entity\Event $event)
+    {
+        $this->events[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEvent(\AppBundle\Entity\Event $event)
+    {
+        return $this->events->removeElement($event);
+    }
+
+    /**
+     * Get events.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+
+    /**
+     * Set roles.
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Add postsLike.
+     *
+     * @param \AppBundle\Entity\Post $postsLike
+     *
+     * @return User
+     */
+    public function addPostsLike(\AppBundle\Entity\Post $postsLike)
+    {
+        $this->posts_likes[] = $postsLike;
+
+        return $this;
+    }
+
+    /**
+     * Remove postsLike.
+     *
+     * @param \AppBundle\Entity\Post $postsLike
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePostsLike(\AppBundle\Entity\Post $postsLike)
+    {
+        return $this->posts_likes->removeElement($postsLike);
+    }
+
+    /**
+     * Get postsLikes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostsLikes()
+    {
+        return $this->posts_likes;
     }
 
     /**
@@ -382,39 +511,28 @@ class User implements UserInterface
     }
 
     /**
-     * Add event.
+     * Add notification.
      *
-     * @param \AppBundle\Entity\Event $event
+     * @param \AppBundle\Entity\Notification $notification
      *
      * @return User
      */
-    public function addEvent(\AppBundle\Entity\Event $event)
+    public function addNotification(\AppBundle\Entity\Notification $notification)
     {
-        $this->events[] = $event;
+        $this->notifications[] = $notification;
 
         return $this;
     }
 
     /**
-     * Remove event.
+     * Remove notification.
      *
-     * @param \AppBundle\Entity\Event $event
+     * @param \AppBundle\Entity\Notification $notification
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeEvent(\AppBundle\Entity\Event $event)
+    public function removeNotification(\AppBundle\Entity\Notification $notification)
     {
-        return $this->events->removeElement($event);
+        return $this->notifications->removeElement($notification);
     }
-
-    /**
-     * Get events.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEvents()
-    {
-        return $this->events;
-    }
-
 }

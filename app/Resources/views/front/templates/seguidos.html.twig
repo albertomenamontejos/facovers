@@ -1,0 +1,18 @@
+{% if seguidores is defined  %}
+    {% for seguidor in seguidores %}
+        <a href="{{ path('perfil',{'username': seguidor.username}) }}">
+            <div class="seguidor">
+                <div class="photo">
+                    {% if seguidor.photo == null %}
+                        <img class="photo"
+                             src="https://ui-avatars.com/api/?size=34&name={{ seguidor.username }}&color=6c6c6c&background=f2f2f2"
+                             alt="">
+                    {% else %}
+                        <img class="photo" src="{{ seguidor.photo.enlace }}" alt="">
+                    {% endif %}
+                </div>
+                <p>{{ seguidor.username }}</p>
+            </div>
+        </a>
+    {% endfor %}
+{% endif %}

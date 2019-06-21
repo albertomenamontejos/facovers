@@ -20,7 +20,8 @@ class AppKernel extends Kernel
             new \Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
-
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+//            new FOS\UserBundle\FOSUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

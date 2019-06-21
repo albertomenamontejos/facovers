@@ -7,7 +7,7 @@
   background: $fondo;
   border-bottom: 1px solid $primario-claro;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08), 0 2px 3px rgba(0, 0, 0, 0.016);
-
+  z-index: 10;
   .logo {
     display: flex;
     justify-content: flex-start;
@@ -22,6 +22,38 @@
     justify-content: center;
     align-items: center;
     width: 72%;
+    .input-busqueda{
+      display:flex;
+      .btn-search{
+        background: $primario-claro;
+        color:white;
+        letter-spacing: 1px;
+        font-size:12px;
+        margin:0;
+        border-radius:0 3px 3px 0;
+        border:1px solid $primario-claro;
+        padding:10px 20px 10px 20px;
+      }
+    }
+  }
 
+  .notifications{
+    text-align: center;
+    width:200px;
+    position:relative;
+    .icon-notification{
+      content:url('../../img/notification.png');
+    }
+    .number-notifications{
+      background: #c14e14;
+      color:white;
+      font-size: 13px;
+      padding:2px;
+      border-radius:100%;
+      min-width:18px;
+      position:absolute;
+      left:57%;
+      top:0;
+    }
   }
 }

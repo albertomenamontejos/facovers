@@ -99,3 +99,4 @@ oneup_flysystem:
         assets_fs:
             adapter:    assets_adapter
             mount:      assets_fs
+

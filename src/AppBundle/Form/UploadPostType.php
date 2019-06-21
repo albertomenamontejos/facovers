@@ -1,5 +1,7 @@
 <?php
+
 namespace AppBundle\Form;
+
 use AppBundle\Entity\User;
 //use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -11,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
 
 
 class UploadPostType extends AbstractType
@@ -34,8 +35,8 @@ class UploadPostType extends AbstractType
                 )
             ])
             ->add('videoFile', VichFileType::class, [
-            'label'         => false,
-            'required'      => false,
+                'label' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024M',
@@ -47,13 +48,21 @@ class UploadPostType extends AbstractType
                             'video/quicktime'
                         ]
                     ])
-                ]
+                ],
+                'attr' => array(
+                    'class' => 'file'
+                )
             ])
             ->add('description', TextareaType::class, [
-                'attr' => ['class' => 'tinymce'],
+                'attr' => ['class' => 'description',
+                            'placeholder' => 'Incluye una descripción',
+                            'rows'=> 4
+                    ],
             ])
-            ->add('save', SubmitType::class, ['label' => 'Siguiente'])
-            ;
+            ->add('subir_video', SubmitType::class,
+                ['label' => 'Subir video',
+                    'attr' => ['class' => 'btn-upload']
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

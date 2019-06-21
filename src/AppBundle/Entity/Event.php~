@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * event
  *
  * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\eventRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
  */
 class Event
 {
@@ -23,16 +23,15 @@ class Event
     /**
      * Muchos usuarios pueden asistir a muchos eventos
      * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="users_assistants",
+     * @ORM\JoinTable(name="user_assistant",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
      */
     private $assistants;
 
-    // ...
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->assistants = new ArrayCollection();
     }
 
@@ -242,5 +241,65 @@ class Event
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Set userId.
+     *
+     * @param \AppBundle\Entity\User|null $userId
+     *
+     * @return Event
+     */
+    public function setUserId(\AppBundle\Entity\User $userId = null)
+    {
+        $this->user_id = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Add assistant.
+     *
+     * @param \AppBundle\Entity\User $assistant
+     *
+     * @return Event
+     */
+    public function addAssistant(\AppBundle\Entity\User $assistant)
+    {
+        $this->assistants[] = $assistant;
+
+        return $this;
+    }
+
+    /**
+     * Remove assistant.
+     *
+     * @param \AppBundle\Entity\User $assistant
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAssistant(\AppBundle\Entity\User $assistant)
+    {
+        return $this->assistants->removeElement($assistant);
+    }
+
+    /**
+     * Get assistants.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssistants()
+    {
+        return $this->assistants;
     }
 }

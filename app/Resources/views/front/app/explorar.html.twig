@@ -1,0 +1,33 @@
+{% extends '/front/layout/layout.html.twig' %}
+
+{% block section %}
+    <div class="page-explorar">
+        <div class="seccion mas-comentados">
+            <div class="titulo-explorar">
+                <h3>Los más comentados</h3>
+            </div>
+            <div class="posts" id="posts_comentados">
+                <input type="hidden" id="offset_comentados" value="3">
+                {% set posts = posts_comments  %}
+                {{ include('front/templates/posts.html.twig') }}
+            </div>
+            <div class="caja-vermas">
+                <button class="btn-vermas" id="ver_mas_comentados">Ver más videos</button>
+            </div>
+        </div>
+        <div class="seccion mas-likes">
+            <div class="titulo-explorar">
+                <h3>Los más gustados</h3>
+            </div>
+            <div class="posts" id="posts_likes">
+                <input type="hidden" id="offset_likes" value="3">
+                {% set posts = posts_comments  %}
+                {{ include('front/templates/posts.html.twig') }}
+            </div>
+            <div class="caja-vermas">
+                <button class="btn-vermas" id="ver_mas_likes">Ver más videos</button>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

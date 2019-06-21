@@ -2,48 +2,5 @@
 
 {% block section %}
     {{ include('front/templates/login_registro.html.twig') }}
-
-    <div class="posts">
-            {% for post in posts %}
-                <div class="post">
-                    <div class="header">
-                        <div class="user">
-                            <a href="#">{{ post.name_user }}</a>
-                        </div>
-                        <div class="follow">
-                            <button class="follow-user">Seguir</button>
-                        </div>
-                    </div>
-                    <div class="video">
-                        <video >
-                            <source src="{{ post.enlace }}" type="video/mp4">
-                            <source src="{{ post.enlace }}" type="video/ogg">
-                            Your browser does not support HTML5 video.
-                        </video>
-                    </div>
-                    <div class="details">
-                        <div class="sing">
-                            <p class="title">{{ post.song }}</p>
-                        </div>
-                        <div class="artist">
-                            <p class="name">{{ post.artist }}</p>
-                        </div>
-                    </div>
-                    <div class="interacciones">
-                        <div class="like">
-                            <i class="icon icon-cor"></i>
-                        </div>
-                        <div class="comments">
-                            <i class="icon icon-comments"></i>
-                        </div>
-                        <div class="share">
-                            <i class="icon icon-share"></i>
-                        </div>
-                        <div class="navdot">
-                            <i class="icon icon-navdot"></i>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+    {{ include('front/templates/posts.html.twig') }}
 {% endblock %}
