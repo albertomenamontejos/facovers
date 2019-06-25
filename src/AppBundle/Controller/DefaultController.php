@@ -326,12 +326,14 @@ class DefaultController extends Controller
         }
         $posts_comments = $this->getPostWithParameters($posts_comments);
         $posts_likes = $this->getPostWithParameters($posts_likes);
-
+        $parametros = [];
+        $this->getParametersEvents($user_session,$parametros,'eventos_aside');
         return $this->render('/front/app/explorar.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
             'seguidores' => $seguidores,
             'posts_comments' => $posts_comments,
             'posts_likes' => $posts_likes,
+            'eventos_aside' => $parametros['eventos_aside'],
         ]);
 
     }
