@@ -248,8 +248,9 @@
     .buttons{
       display:flex;
       flex-direction:column;
-justify-content:center;
-  width:100%;
+      justify-content:center;
+      width:100%;
+      position:relative;
       textarea{
         background: #f2f2f2;
         margin:15px;
@@ -265,10 +266,9 @@ justify-content:center;
 
       .boton{
         position:absolute;
+        left:88%;
+        top:34%;
         .icon-enviar{
-          position:relative;
-          left:320px;
-          top:2px;
           width:32px;
           content:url("../../img/enviar.png");
           cursor:pointer;
