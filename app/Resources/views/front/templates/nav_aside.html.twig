@@ -1,38 +1,50 @@
-<div class="botones">
-    <div class="menu">
-        <div class="icon ">
-            <a href="#">
-                <img src="{{ asset('assets/img/user.png') }}" alt="">
-            </a>
-        </div>
-        <div class="icon">
-            <a href="{{ path('upload') }}">
-                <img src="{{ asset('assets/img/upload.png') }}"  alt="">
-            </a>
-        </div>
-        <div class="icon">
-            <a href="{{ path('logout') }}">
-                <img src="{{ asset('assets/img/logout.png') }}" alt="">
-            </a>
+    <div class="explorar">
+        <a href="{{ path('explorar') }}" id="explorar">Explorar
+        <i class="flecha-derecha"></i>
+        </a>
+    </div>
+    <div class="seguidores">
+        <p class="titulo">SEGUIDOS</p>
+        <div class="linea"></div>
+        <div class="mis-seguidores" id="aside_lista_seguidores">
+            {{ include('front/templates/seguidos.html.twig') }}
         </div>
     </div>
-{#    {% if app.user %}#}
-{#        <div class="menu">#}
-{#            <div class="icon icon-perfil">#}
-{#                <i class="fas fa-upload"></i>#}
-{#                <a href="{{ path('upload') }}">Subir video</a>#}
-{#            </div>#}
-{#            <div class="icon icon-perfil">#}
-{#                <i class="fas fa-pen"></i>#}
-{#                <a href="#">Mi perfil</a>#}
-{#            </div>#}
-{#            <div class="icon icon-perfil">#}
-{#                <i class="fas fa-sign-out-alt"></i>#}
-{#                <a href="{{ path('logout') }}">Cerrar sesión</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    {% else %}#}
-{#        <a href="{{ path('user_registration') }}">Registrate</a>#}
-{#        <a href="{{ path('login') }}">Iniciar sesion</a>#}
-{#    {% endif %}#}
-</div>
+    <div class="eventos">
+        <p class="titulo">EVENTOS</p>
+        <div class="linea"></div>
+        <div class="caja_eventos">
+        {% if eventos_aside is defined  %}
+                {{ include('front/templates/nav_eventos.html.twig') }}
+        {% endif %}
+        </div>
+
+    </div>
+    <div class="botones">
+        <div class="menu">
+            <div class="icon ">
+                <a href="{{ path('homepage') }}">
+                    <img src="{{ asset('assets/img/house.png') }}" alt="">
+                </a>
+            </div>
+            <div class="icon ">
+                <a href="{{ path('perfil',{'username': app.user.username}) }}">
+                    <img src="{{ asset('assets/img/user.png') }}" alt="">
+                </a>
+            </div>
+            <div class="icon">
+                <a href="{{ path('mensajes') }}">
+                    <img src="{{ asset('assets/img/msg.png') }}" alt="">
+                </a>
+            </div>         <div class="icon">
+                <a href="{{ path('configuracion') }}">
+                    <img src="{{ asset('assets/img/config.png') }}" alt="">
+                </a>
+            </div>
+            <div class="icon">
+                <a href="{{ path('logout') }}">
+                    <img src="{{ asset('assets/img/logout.png') }}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>

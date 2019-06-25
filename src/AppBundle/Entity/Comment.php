@@ -3,50 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * comments
  *
  * @ORM\Table(name="comments")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  */
-class Comment
+class Comment implements \JsonSerializable
 {
-    //RELACIONES
-
-    /**
-     * Muchos comentarios pertenecen a un solo post
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
-     */
-    private $post_id;
-
-    /**
-     * Muchos comentarios pertenecen a un solo usuario
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user_id;
-
-
-    /**
-     * Un comentario puede tener muchas respuestas.
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="comment_parent")
-     */
-    private $respuestas;
-
-    /**
-     * Una respuesta pertenece a un solo comentario.
-     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="respuestas")
-     * @ORM\JoinColumn(name="comment_parent", referencedColumnName="id")
-     */
-    private $comment_parent;
-
-    public function __construct()
-    {
-        $this->respuestas = new ArrayCollection();
-    }
-    //FIN RELACIONES
 
     /**
      * @var int
@@ -78,6 +43,44 @@ class Comment
      */
     private $updateAt;
 
+    /**
+     * Un comentario puede tener muchas respuestas.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="comment_parent")
+     */
+    private $respuestas;
+
+    /**
+     * Una respuesta pertenece a un solo comentario.
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="respuestas")
+     * @ORM\JoinColumn(name="comment_parent", referencedColumnName="id")
+     */
+    private $comment_parent;
+
+    /**
+     * Many features have one product. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id",onDelete = "CASCADE")
+     */
+    private $post;
+
+    /**
+     * Many features have one product. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    public function __construct($content)
+    {
+        $this->updateAt = new  \DateTime();
+        $this->content = $content;
+        $this->respuestas = new ArrayCollection();
+    }
+
+    function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 
     /**
      * Get id.
@@ -98,7 +101,12 @@ class Comment
      */
     public function setContent($content = null)
     {
-        $this->content = $content;
+        $this->content = $content;    /**
+     * Unidirectional - Many users have marked many comments as read
+     *
+     * @ManyToMany(targetEntity="Comment")
+     * @JoinTable(name="user_read_comments")
+     */
 
         return $this;
     }
@@ -162,54 +170,6 @@ class Comment
     }
 
     /**
-     * Set postId.
-     *
-     * @param \AppBundle\Entity\Post|null $postId
-     *
-     * @return Comment
-     */
-    public function setPostId(\AppBundle\Entity\Post $postId = null)
-    {
-        $this->post_id = $postId;
-
-        return $this;
-    }
-
-    /**
-     * Get postId.
-     *
-     * @return \AppBundle\Entity\Post|null
-     */
-    public function getPostId()
-    {
-        return $this->post_id;
-    }
-
-    /**
-     * Set userId.
-     *
-     * @param \AppBundle\Entity\User|null $userId
-     *
-     * @return Comment
-     */
-    public function setUserId(\AppBundle\Entity\User $userId = null)
-    {
-        $this->user_id = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId.
-     *
-     * @return \AppBundle\Entity\User|null
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    /**
      * Add respuesta.
      *
      * @param \AppBundle\Entity\Comment $respuesta
@@ -267,5 +227,60 @@ class Comment
     public function getCommentParent()
     {
         return $this->comment_parent;
+    }
+
+    public function __toString()
+    {
+        return $this->getUserId()->getId(). " " .
+            $this->getPostId()->getId() ." ";
+    }
+
+
+    /**
+     * Set post.
+     *
+     * @param \AppBundle\Entity\Post|null $post
+     *
+     * @return Comment
+     */
+    public function setPost(\AppBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post.
+     *
+     * @return \AppBundle\Entity\Post|null
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User|null $user
+     *
+     * @return Comment
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

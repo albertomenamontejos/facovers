@@ -49,22 +49,6 @@ class Post
     private $enlace;
 
     /**
-     * @return mixed
-     */
-    public function getEnlace()
-    {
-        return $this->enlace;
-    }
-
-    /**
-     * @param mixed $enlace
-     */
-    public function setEnlace($enlace)
-    {
-        $this->enlace = $enlace;
-    }
-
-    /**
      * @ORM\Column(type="integer")
      *
      * @var integer
@@ -77,7 +61,6 @@ class Post
      * @var \DateTime
      */
     private $updatedAt;
-
 
     /**
      * @var string
@@ -108,18 +91,9 @@ class Post
     private $views;
 
     /**
-     * En un post pueden haber varios comentarios
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post_id")
-     */
-    private $comments;
-
-    /**
-     * Muchos usuarios pueden seguir a muchos usuarios.
-     * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="like",
-     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
+     * Many Post have Many Likes.
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="posts_likes")
+     * @ORM\JoinTable(name="post_likes"))
      */
     private $likes;
 
@@ -128,10 +102,15 @@ class Post
     /**
      * @ORM\Column(type="integer")
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id" )
      */
     private $user_id;
 
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post"))
+     */
+    private $comments;
 
     public function __construct()
     {
@@ -139,6 +118,22 @@ class Post
         $this->comments = new ArrayCollection();
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getEnlace()
+    {
+        return $this->enlace;
+    }
+
+    /**
+     * @param mixed $enlace
+     */
+    public function setEnlace($enlace)
+    {
+        $this->enlace = $enlace;
+    }
 
     /**
      * Si cargar un archivo manualmente (es decir, no usar el formulario de Symfony) asegure una instancia
@@ -344,6 +339,61 @@ class Post
     }
 
     /**
+     * Get followed.
+     *
+     * @return boolean
+     */
+    public function hasLike($id_user)
+    {
+        foreach($this->likes as $user_like){
+            if($id_user == $user_like->getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get followed.
+     *
+     * @return boolean
+     */
+//    public function hasComment($id_comment)
+//    {
+//        foreach($this->comments as $comment){
+//            if($id_comment == $comment->getId()){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+//    public function __toString()
+//    {
+//      return "".$this->getUserId();
+//    }
+
+
+    /**
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if (!in_array($this->file->getMimeType(), array(
+            'video/mp4',
+            'video/quicktime',
+            'video/avi',
+        ))) {
+            $context
+                ->buildViolation('Wrong file type (mp4,mov,avi)')
+                ->atPath('videoName')
+                ->addViolation()
+            ;
+        }
+    }
+
+
+    /**
      * Add comment.
      *
      * @param \AppBundle\Entity\Comment $comment
@@ -378,23 +428,4 @@ class Post
     {
         return $this->comments;
     }
-
-    /**
-     * @param ExecutionContextInterface $context
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        if (! in_array($this->file->getMimeType(), array(
-            'video/mp4',
-            'video/quicktime',
-            'video/avi',
-        ))) {
-            $context
-                ->buildViolation('Wrong file type (mp4,mov,avi)')
-                ->atPath('videoName')
-                ->addViolation()
-            ;
-        }
-    }
-
 }

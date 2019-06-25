@@ -1,0 +1,149 @@
+{% extends '/front/layout/layout.html.twig' %}
+
+{% block section %}
+    <div class="page_event">
+        {% if evento is defined %}
+            <div class="evento">
+                <input type="hidden" name="id_event" value="{{ evento.id }}">
+                <input type="hidden" name="user_event" value="{{ evento.user.id }}">
+                <div class="cabecera">
+                    <div class="cabecera_izq">
+                        <div class="photo">
+                            {% if user.photo == null %}
+                                <img class="photo" src="https://ui-avatars.com/api/?size=180&name={{ user.username }}&color=6c6c6c&background=f2f2f2" alt="">
+                            {% else %}
+                                <img class="photo" src="{{ photo }}" alt="">
+                            {% endif %}
+                        </div>alberto
+                        <div class="nombre">
+                            <a href="{{ path('perfil',{'username':user.username}) }}">{{ user.username }}</a>
+                        </div>
+                    </div>
+                    <div class="cabecera_der">
+                        <p class="asistentes"> <span id="asistentes">{{ evento.assistants|length }}</span> asistentes</p>
+                        {% if app.user.id != user.id %}
+                            {% if evento.user_session_assistant %}
+                                <button id="remove_inscripcion">Borrar inscripción</button>
+                            {% else %}
+                                <button id="inscripcion">Inscribirse</button>
+                            {% endif %}
+                        {% else %}
+                            <button class="borrar">Borrar</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div class="contenido_izq">
+                        <div class="foto">
+                            {% if evento.photo is null %}
+                                <img src="{{ asset('assets/img/bg-login.jpg') }}" alt="">
+                            {% else %}
+                                <img src="{{ photo }}" alt="">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="contenido_der">
+                        <div class="titulo">
+                            <p>{{ evento.name }}</p>
+                        </div>
+                        <div class="detalles">
+                            <div class="descripcion">
+                                <p class="titulo_detalles">Descripcion del evento: </p>
+                                <p class="contenido_descripcion">{{ evento.description }}</p>
+                            </div>
+                            <div class="tabla">
+                                <table>
+                                    <tr>
+                                        <th>Localizacion</th>
+                                        <td>{{ evento.location }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Precio</th>
+                                        <td>{{ evento.price }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <td>{{ evento.date|date("m/d/Y")}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% elseif eventos is defined%}
+
+            {% for evento in eventos %}
+                <div class="evento">
+                    <input type="hidden" name="id_event" value="{{ evento.id }}">
+                    <div class="cabecera">
+                        <div class="cabecera_izq">
+                            <div class="photo">
+                                {% if user.photo == null %}
+                                    <img class="photo" src="https://ui-avatars.com/api/?size=180&name={{ user.username }}&color=6c6c6c&background=f2f2f2" alt="">
+                                {% else %}
+                                    <img class="photo" src="{{ photo }}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="nombre">
+                                <a href="{{ path('perfil',{'username':user.username}) }}">{{ user.username }}</a>
+                            </div>
+                        </div>
+                        <div class="cabecera_der">
+                            <p class="asistentes">{{ evento.assistants|length }} asistentes</p>
+                            {% if app.user.id != user.id %}
+                                {% if evento.user_session_assistant %}
+                                    <button id="remove_inscripcion">Borrar inscripción</button>
+                                {% else %}
+                                    <button id="inscripcion">Inscribirse</button>
+                                {% endif %}
+                            {% else %}
+                                <button class="borrar" id="borrar_evento">Borrar</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="contenido">
+                        <div class="contenido_izq">
+                            <div class="foto">
+                                {% if evento.photo is null %}
+                                    <img src="{{ asset('assets/img/bg-login.jpg') }}" alt="">
+                                {% else %}
+                                    <img src="{{ photo }}" alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="contenido_der">
+                            <div class="titulo">
+                                <p>{{ evento.name }}</p>
+                            </div>
+                            <div class="detalles">
+                                <div class="descripcion">
+                                    <p class="titulo_detalles">Descripcion del evento: </p>
+                                    <p class="contenido_descripcion">{{ evento.description }}</p>
+                                </div>
+                                <div class="tabla">
+                                    <table>
+                                        <tr>
+                                            <th>Localizacion</th>
+                                            <td>{{ evento.location }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Precio</th>
+                                            <td>{{ evento.price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <td>{{ evento.date|date("m/d/Y")}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

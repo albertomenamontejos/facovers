@@ -25,4 +25,18 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT p.id 
+                FROM AppBundle:User p 
+                WHERE p.username LIKE :str 
+                ORDER BY p.id DESC'
+            )
+            ->setParameter('str','%'.$str.'%')
+            ->getResult();
+    }
+
 }

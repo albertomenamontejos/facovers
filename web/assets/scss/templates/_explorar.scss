@@ -1,0 +1,37 @@
+.page-explorar{
+  background: #f2f2f2;
+  .seccion{
+    margin-top:20px;
+  }
+  margin-top:20px;
+  .titulo-explorar{
+    padding:15px;
+    background:#fff;
+    width:95%;
+    margin:0 auto;
+    h3{
+      color: #6c6c6c;
+      font-size:20px;
+      letter-spacing: .5px;
+    }
+  }
+  .caja-vermas{
+    text-align: center;
+    padding-top:20px;
+    button{
+      background: #7e467c;
+      letter-spacing: 1px;
+      border:1px solid  #7e467c;
+      padding:6px 20px 6px 25px;
+      color:white;
+      font-size:14px;
+      border-radius:2px;
+      cursor:pointer;
+      &:hover{
+        background: #fff;
+        border:1px solid $primario-claro;
+        color:$primario-oscuro;
+      }
+    }
+  }
+}

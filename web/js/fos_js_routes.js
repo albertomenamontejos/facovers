@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"ajax_search":{"tokens":[["text","\/ajax_search"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http"});

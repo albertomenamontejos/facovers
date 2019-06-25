@@ -1,0 +1,85 @@
+{% extends '/front/layout/layout.html.twig' %}
+
+{% block section %}
+    <div class="page-config">
+        <div class="titulo">
+            <h3>Configuracion</h3>
+        </div>
+        <div class="config">
+            <div class="options">
+                <div id="mi_perfil" class="option">
+                    <p>Mi perfil</p>
+                </div>
+                <div  id="mi_cuenta" class="option">
+                    <p>Mi cuenta</p>
+                </div>
+            </div>
+            <div class="content">
+                <div class="mi_perfil content-option">
+                    <div class="form">
+                        <div class="campo-photo">
+                            <div class="caja-photo">
+                                {% if app.user.photo == null %}
+                                    <img class="photo" src="https://ui-avatars.com/api/?size=180&name={{ app.user.username }}&color=6c6c6c&background=f2f2f2" alt="">
+                                {% else %}
+                                    <img class="photo" src="{{ app.user.photo.enlace }}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="widget">
+                                {{ form_start(form_photo) }}
+                                {{ form_widget(form_photo) }}
+                                {{ form_end(form_photo) }}
+                            </div>
+
+                        </div>
+                        {{ form_start(form_perfil) }}
+                        <div class="campo-bio">
+                            <div class="widget">
+                                {{ form_widget(form_perfil.bio) }}
+                            </div>
+                        </div>
+                        <div class="btn-guardar">
+                            {{ form_widget(form_perfil.save) }}
+                        </div>
+                        {{ form_end(form_perfil) }}
+                    </div>
+
+                </div>
+                <div  class="mi_cuenta content-option" style="display:none">
+                    <div class="form">
+                        {{ form_start(form_cuenta) }}
+                        <div class="campo">
+                            <p>Nombre completo</p>
+                            <div class="widget">
+                                {{ form_widget(form_cuenta.name) }}
+                            </div>
+                        </div>
+{#                        <div class="campo">#}
+{#                            <p>Nombre de usuario</p>#}
+{#                            <div class="widget">#}
+{#                                {{ form_widget(form_cuenta.username) }}#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div class="campo">
+                            <p>Email</p>
+                            <div class="widget">
+                                {{ form_widget(form_cuenta.email) }}
+                            </div>
+                        </div>
+                        <div class="campo">
+                            <p></p>
+                            <div class="widget">
+                                {{ form_widget(form_cuenta.plainPassword) }}
+                            </div>
+                        </div>
+                        <div class="btn-guardar">
+                            {{ form_widget(form_cuenta.save) }}
+                        </div>
+                        {{ form_end(form_cuenta) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

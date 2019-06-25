@@ -43,4 +43,3 @@ services:
                 credentials:
                     key: %assets_key%
                     secret: %assets_secret%
-

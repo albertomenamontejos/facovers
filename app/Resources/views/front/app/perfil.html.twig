@@ -1,0 +1,136 @@
+{% extends '/front/layout/layout.html.twig' %}
+
+{% block section %}
+    <div class="mi-perfil">
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        {% if app.user.id is defined %}
+            <input type="hidden" name="id_user_sesion" value="{{ app.user.id }}">
+        {% endif %}
+
+        {{ include('front/templates/barra_perfil.html.twig') }}
+
+        <div class="list" id="list">
+            <button class="element-list all active" id="all">
+                <p>Todos</p>
+            </button>
+            <div class="element-list mas" id="mas">
+                <span class="icon-mas"></span>
+            </div>
+        </div>
+        {% if eventos_usuario is defined %}
+            <div class="eventos_usuario">
+                {% for evento in eventos_usuario %}
+                    {% if evento is defined %}
+                        <div class="evento">
+                            <input type="hidden" name="id_event" value="{{ evento.id }}">
+                            <input type="hidden" name="user_event" value="{{ evento.user.id }}">
+                            <div class="cabecera">
+                                <div class="titulo">
+                                    <p>{{ evento.name }}</p>
+                                </div>
+                            </div>
+                            <div class="contenido">
+                                <div class="descripcion">
+                                    <p class="titulo_detalles">Descripción: </p>
+                                    <p class="contenido_descripcion">{{ evento.description }}</p>
+                                </div>
+
+                                <div class="contenido_der">
+                                    <div class="detalles">
+                                        <div class="tabla">
+                                            <table>
+                                                <tr>
+                                                    <th>Localizacion</th>
+                                                    <td>{{ evento.location }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Precio</th>
+                                                    <td>{{ evento.price }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <td>{{ evento.date|date("m/d/Y")}}</td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                        <div class="asistants">
+                                            <p class="asistentes">
+                                                <span id="asistentes">{{ evento.assistants|length }}</span> asistentes
+                                            </p>
+
+                                            <div class="cabecera_der">
+                                                {% if app.user.id != user.id %}
+                                                    {% if evento.user_session_assistant %}
+                                                        <button id="remove_inscripcion">Borrar inscripción</button>
+                                                    {% else %}
+                                                        <button id="inscripcion">Inscribirse</button>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <button class="borrar" id="borrar_evento">Borrar</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="perfil-posts" id="perfil_posts">
+            <div class="posts">
+                <input type="hidden" name="page" value="perfil_app">
+                <input type="hidden" name="offset" value="9">
+                {{ include('front/templates/posts.html.twig') }}
+            </div>
+        </div>
+        <div class="caja-seguidos" id="caja_seguidos">
+            <div class="caja-titulo">
+                <p class="titulo-seguidos">Seguidos</p>
+            </div>
+            <div class="lista-seguidos" id="lista_seguidos">
+            </div>
+        </div>
+
+        <div class="caja-seguidores" id="caja_seguidores">
+            <div class="caja-titulo">
+                <p class="titulo-seguidores">Seguidores</p>
+            </div>
+            <div class="lista-seguidores" id="lista_seguidores">
+
+            </div>
+        </div>
+
+        <div id="subir_video" style="display:none">
+            <div class="form-subir-video">
+                {{ form_start(subir_video) }}
+                {{ form_widget(subir_video.song) }}
+                {{ form_widget(subir_video.artist) }}
+                <div class="subir_video_label">
+                    <label for="upload_post_videoFile_file" class="label-file">
+                        Seleccionar video
+                    </label>
+                </div>
+                {{ form_widget(subir_video.description) }}
+                {{ form_widget(subir_video.subir_video) }}
+                {{ form_end(subir_video) }}
+            </div>
+        </div>
+        <div id="crear_evento" style="display:none;">
+            <h3>Crear un evento</h3>
+            <div class="form-crear-evento">
+                {{ form_start(crear_evento) }}
+                {{ form_widget(crear_evento.name) }}
+                {{ form_widget(crear_evento.location) }}
+                {{ form_widget(crear_evento.price) }}
+                {{ form_widget(crear_evento.description) }}
+                {{ form_widget(crear_evento.date) }}
+                {{ form_end(crear_evento) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,175 @@
+.page-msj{
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  .caja_mensajes{
+    background: #fff;
+    display:flex;
+    flex-direction:row;
+    width:80%;
+    .conversaciones_activas,
+    .lista_seguidores{
+      min-height: 80vh;
+      min-width:20%;
+      border-right: 1px solid #c0c0c0;
+      overflow-y: scroll;
+      .head{
+        color: #515151;
+        display:flex;
+        flex-direction:row;
+        padding:10px;
+        align-items: center;
+        border-bottom:1px solid #c0c0c0;
+        .button{
+          padding:2px;
+          font-size: 16px;
+          background: #fff;
+          border:1px solid #c0c0c0;
+          width:30px;
+          margin-right: 20px;
+          cursor:pointer;
+          color: #606060;
+          &:hover{
+            background: #f2f2f2;
+          }
+        }
+        p{
+          font-style: italic;
+        }
+      }
+    }
+    .conversaciones_activas,
+    .lista_seguidores{
+      position:relative;
+      .head{
+        border-bottom:none;
+      }
+      .icon{
+        position:absolute;
+        left:7%;
+        top:7.4%;
+        color: #9e9e9e;
+        width:10px;
+      }
+      #buscar_seguidores{
+        width:100%;
+        border:none;
+        border-bottom:2px solid #c0c0c0;
+        padding:10px;
+        color: #5a5a5a;
+        font-style:italic;
+        padding-left:50px;
+        outline: none;
+      }
+      .seguidor,.seguidor_inactivo{
+        display:flex;
+        color: #494949;
+        flex-direction:row;
+        align-items: center;
+        padding:5px;
+        border-bottom:1px solid #c0c0c0;
+        user-select: none;
+        cursor:pointer;
+        .photo{
+          border-radius:100%;
+          margin-right: 10px;
+          margin-left: 5px;
+          width:40px;
+        }
+        &:hover{
+          background: $primario-claro;
+          color:white;
+        }
+      }
+    }
+
+    .conversacion{
+      width:90%;
+      min-height: 55vh;
+      max-height: 55vh;
+      .cabecera{
+        display:flex;
+        flex-direction:row;
+        align-items: center;
+        border-bottom:1px solid #c0c0c0;
+        min-height: 9vh;
+        max-height: 10vh;
+        padding:17.5px;
+        width:100%;
+        background: #fff;
+        .photo{
+          -webkit-border-radius: 100%;
+          -moz-border-radius: 100%;
+          border-radius: 100%;
+          width:50px;
+        }
+        a{
+          font-size:16px;
+          text-decoration:none;
+          color: #434343;
+          margin-left:10px;
+        }
+      }
+      #conversacion{
+        min-height: 55vh;
+        max-height: 55vh;
+        position:relative;
+        overflow-y: scroll;
+        .mensajes{
+          margin-top: 6%;
+          .caja_mensaje{
+            display:flex;
+            flex-direction:column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            text-align: right;
+            width:100%;
+            .mensaje_usuario,
+            .mensaje_respuesta{
+              text-align: right;
+              padding:10px;
+              padding-right: 15px;
+              background: #ebebeb;
+              color: #414141;
+              letter-spacing: 1px;
+              //width:50%;
+              margin:10px;
+              border-radius: 5px;
+            }
+            .mensaje_respuesta{
+              background: #d2f1f4;
+            }
+          }
+        }
+      }
+      .formulario{
+        border-top:4px solid #C0C0C0;
+        min-height: 2vh;
+        position:relative;
+        textarea{
+          max-width:85%;
+          min-width:85%;
+          max-height: 120px;
+          min-height: 120px;
+          padding:30px;
+          border:none;
+          outline:none;
+          resize: none;
+        }
+        .icon-enviar{
+          content:url('../../img/enviar.png');
+          right: 5%;
+          top: 33%;
+          position: absolute;
+          width: 50px;
+          cursor:pointer;
+          user-select: none;
+        }
+      }
+    }
+  }
+
+
+}

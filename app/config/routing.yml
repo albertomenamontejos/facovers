@@ -3,3 +3,12 @@ app:
     type: annotation
 logout:
     path: /logout/
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+perfil:
+    path: /{username}
+    defaults: { _controller: AppBundle:Default:perfil}
+    # missing options == Routing.generate() function can't find "route_name" route
+    options:
+        expose: true
+    # after setting expose to true, the route is active

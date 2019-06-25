@@ -1,25 +1,169 @@
 .aside{
   background: $primario-oscuro;
   color:white;
+  .explorar{
+    display:flex;
+    justify-content: center;
+    width:100%;
+    margin-top:25px;
+    margin-bottom:25px;
+    #explorar{
+      background: #2f173c;
+      padding: 15px 35px 15px 20px;
+      border:1px solid #200e2a;
+      color: rgba(212, 212, 212, 0.67);
+      border-radius: 3px;
+      cursor:pointer;
+      position:relative;
+      width:85%;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-align: center;
+      &:hover{
+        background: #241833;
+      }
+      .flecha-derecha{
+        position:absolute;
+        top:16px;
+        left:65%;
+        content:url("../../img/flecha-derecha.png");
+        width:14px;
+      }
+    }
+  }
+
+  .seguidores{
+    display:flex;
+    flex-direction:column;
+    min-height:48%;
+    max-height:48%;
+    .mis-seguidores{
+      display:flex;
+      justify-content: flex-start;
+      flex-direction:column;
+        a{
+          text-decoration: none;
+          color:#fff;
+          .seguidor{
+            display:flex;
+            flex-flow:row nowrap;
+            height: 48px;
+            border-bottom:1px solid #6f4c6c;
+            align-items: center;
+            .photo{
+              margin-top:2px;
+              margin-left:10px;
+              border-radius:100%;
+              width:34px;
+            }
+            p{
+              margin-left:25px;
+              letter-spacing: 2px;
+            }
+            &:hover{
+              border-bottom:1px solid #361933;
+            }
+          }
+
+          &:hover{
+            background: #351d42;
+            color:white;
+          }
+        }
+    }
+  }
+
   .botones{
     position:absolute;
-    top:93%;
-    width:$columna-izq;
+    top:95%;
+    width:100%;
+    min-height: 40px;
+    overflow: hidden;
+    background: $primario-oscuro;
     .menu{
-      padding-top:22px;
       display:flex;
       justify-content: space-evenly;
       flex-flow:row nowrap;
+      align-items: center;
+      min-height: 40px;
+
       .icon{
+        //FCE0FC iconos aside
         display:flex;
         flex-direction:column;
         text-align: center;
         border-radius:50%;
         max-width:80px;
         img{
-          width:23px;
+          width:22px;
         }
       }
     }
   }
 }
+
+.titulo{
+  color: #b98fb6;
+  font-size: 16px;
+  padding-bottom:10px;
+  font-weight: bold;
+  text-align:center;
+  letter-spacing: 1px;
+}
+
+.linea{
+  border-bottom:2px solid #6f4c6c;
+}
+.eventos{
+  overflow: hidden;
+  .caja_eventos{
+    overflow-y: scroll;
+    height: 288px;
+    user-select: none;
+    cursor:pointer;
+    margin-right: 5px;
+    margin-top:10px;
+    .evento{
+      margin:5px;
+      margin-top:0;
+      margin-left:10px;
+      margin-bottom:10px;
+      //border-radius:2px;
+      //border:1px solid #817e7e;
+      background:#714786;
+      border-radius:3px 3px 0 0;
+
+      a{
+        text-decoration:none;
+        font-size: 12px;
+      }
+      .titulo_name{
+        padding:3px 0 3px 8px;
+        font-size: 15px;
+        color: rgb(245, 245, 245);
+        letter-spacing: 1px;
+        border-bottom:1px solid #000;
+        text-align: center;
+        small{
+          color: rgb(245, 245, 245);
+          font-size:12px;
+        }
+      }
+      .titulo{
+        padding:12px;
+        text-transform: uppercase;
+        color: rgb(218, 218, 218);
+        font-size:14px;
+        letter-spacing: 1px;
+      }
+      .num_assistants{
+        text-align: right;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        color: rgb(245, 245, 245);
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+

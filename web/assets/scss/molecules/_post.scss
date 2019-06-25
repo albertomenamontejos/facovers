@@ -4,46 +4,51 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   .post{
-    width:23%;
-    min-width:385px;
-    background: #161616;
+    width:30%;
+    min-width:420px;
+    background: #f2f2f2;
     border-radius: 3px;
     overflow: hidden;
+    margin-top:20px;
+    margin-bottom:20px;
+    max-height: 345px;
     .header{
       height: 40px;
       padding:0;
       display:flex;
       justify-content: space-between;
-      background: #161616;
-      color:white;
-      border:1px solid $primario-claro;
+      background: #fff;
       border-radius:3px 3px 0 0;
       border-bottom:0;
+      border:1px solid #9f9f9f;
+      border-bottom:none;
       .user{
-        width:80%;
+        width:60%;
         display:flex;
         align-items: center;
         margin-left:10px;
         a{
-          color: white;
+          letter-spacing: 1px;
+          color:#161616;
           font-weight: bold;
           text-decoration:none;
         }
       }
       .follow{
-        width:23%;
+        width:50%;
         display:flex;
         align-items: center;
         justify-content: flex-end;
         button{
-          background: $primario-claro;
+          background: #6a4467;
           color:white;
           border:1px solid $primario-claro;
           border-radius:3px;
           padding:3px 10px 3px 10px ;
           cursor:pointer;
-          font-weight: bold;
           margin-right:5px;
+          letter-spacing: 1px;
+          outline:none;
           &:hover{
             background: #fff;
             color:$primario-claro;
@@ -51,6 +56,29 @@
           }
         }
       }
+      .unfollow{
+        width:50%;
+        display:flex;
+        align-items: center;
+        justify-content: flex-end;
+        button{
+          background: #fff;
+          color:$primario;
+          border:1px solid $primario-claro;
+          border-radius:3px;
+          padding:3px 10px 3px 10px ;
+          cursor:pointer;
+          margin-right:5px;
+          letter-spacing: 1px;
+          outline:none;
+          &:hover{
+            background: #fff;
+            color:$primario-claro;
+            border:1px solid $primario;
+          }
+        }
+      }
+
     }
     .video{
       width:100%;
@@ -58,9 +86,13 @@
       min-height: 210px;
       position:relative;
       overflow: hidden;
+      background: #505050;
+      border-right:1px solid #9f9f9f;
+      border-left:1px solid #9f9f9f;
       video{
         width:100%;
         height: auto;
+        min-height: 350px;
         ///* Center the video */
         position: absolute;
         top: 50%;
@@ -75,17 +107,20 @@
       display:flex;
       flex-direction:column;
       padding:10px;
-      background: #161616;
+      background: #fff;
+      border-right:1px solid #9f9f9f;
+      border-left:1px solid #9f9f9f;
       .sing,
       .artist{
         align-items: center;
         height: 50%;
         display:flex;
-        color:white;
+        color:#161616;
         //font-weight: bold;
         .title, .name{
           align-items: center;
           margin-left:5px;
+          letter-spacing: 1px;
         }
         .name{
           margin-top:5px;
@@ -93,17 +128,20 @@
       }
     }
     .interacciones{
+      position:relative;
+      user-select: none;
       height: 35px;
       padding:0;
       display:flex;
-      background: #2f2f2f;
-      border-radius: 0 0 3px 3px ;
-      //border-top:1px solid #cacaca;
+      background: #7e467c;
+      border-right:1px solid #9f9f9f;
+      border-left:1px solid #9f9f9f;
+      width:100%;
       .like,
       .navdot,
       .comments,
       .share{
-        width:25%;
+        width:33.33%;
         display:flex;
         justify-content: center;
         padding:10px;
@@ -115,23 +153,125 @@
         }
       }
       .like{
-        & i{
+        & .icon-cor{
           content:url("../../img/cor.png");
+        }
+        & .icon-cor-rojo{
+          content:url("../../img/cor-rojo.png");
+        }
+        .num_likes{
+          color:white;
+          padding-left:4px;
         }
       }
       .comments{
         & i{
           content:url("../../img/comment.png");
         }
-      }
-      .share{
-        & i{
-          content:url("../../img/share.png");
+        .num_comments{
+          color:white;
+          padding-left:4px;
         }
       }
       .navdot{
         & i{
           content:url("../../img/nav.png");
+        }
+      }
+      .menu-navdot{
+        position:absolute;
+        top:-78%;
+        left:67%;
+        width:33.33%;
+        .fila{
+          padding:5px;
+          background: #7e467c;
+          text-align: center;
+          color:white;
+          border:1px solid #fff;
+          border-right: 1px solid #9f9f9f;
+          cursor:pointer;
+        }
+      }
+    }
+  }
+
+  .box-comments{
+    background: #fff;
+    display:none;
+    border-right:1px solid #9f9f9f;
+    border-left:1px solid #9f9f9f;
+    border-bottom:1px solid #9f9f9f;
+    border-radius:3px;
+    .comments{
+      max-height: 300px;
+      overflow-y: scroll;
+    }
+    .comment{
+      color:white;
+      padding-left:15px;
+      padding-right:15px;
+      padding-top:7px;
+      padding-bottom:7px;
+      border-bottom: 1px solid #b5b5b5;
+      a{
+        color:#3f3f3f;
+        text-decoration: none;
+      }
+      p{
+        color: rgb(115, 115, 115);
+        margin-left:15px;
+        margin-top:5px;
+      }
+      .enlaces{
+        display:flex;
+        flex-direction:row;
+        justify-content: space-between;
+        color: #eaeaea;
+      }
+    }
+    .msg_confirm{
+      display:none;
+      background: #1c8013;
+      color:white;
+    }
+    .msg_error{
+      display:none;
+      background: #AA3333;
+      color:white;
+    }
+    .no-comments{
+      color:gray;
+      text-align: center;
+      padding:10px;
+    }
+    .buttons{
+      display:flex;
+      flex-direction:column;
+justify-content:center;
+  width:100%;
+      textarea{
+        background: #f2f2f2;
+        margin:15px;
+        border: 1px solid #f2f2f2;
+        min-height: 60px;
+        max-height: 60px;
+        border-radius:1px;
+        outline:none;
+        resize: none;
+        padding:5px;
+        padding-right: 50px;
+      }
+
+      .boton{
+        position:absolute;
+        .icon-enviar{
+          position:relative;
+          left:320px;
+          top:2px;
+          width:32px;
+          content:url("../../img/enviar.png");
+          cursor:pointer;
         }
       }
     }

@@ -50,6 +50,8 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
+        mapping_types:
+            enum: string
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -99,3 +101,4 @@ oneup_flysystem:
         assets_fs:
             adapter:    assets_adapter
             mount:      assets_fs
+

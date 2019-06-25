@@ -11,27 +11,33 @@
     display: flex;
     flex-flow: row nowrap;
     margin-top: 65px;
-    min-height: calc(100vh - 60px);
+    height:100vh;
   }
 
   .page-content {
+    display:flex;
     .aside {
-      width: $columna-izq;
-      //min-width:265px;
+      width: 280px;
+      position:fixed;
+      height: calc(100vh - 65px);
     }
-
     .section {
-      width: $columna-der;
-      margin: 20px auto;
+      background: #f2f2f2;
+      margin-left: 280px;
+      //padding: 1px 16px;
+      min-width:calc(100% - 280px);
     }
   }
 
+
+
+
   .page-content-simple {
     margin-top: 0;
-
     .section {
       width: 100%;
       margin: 0 auto;
+      background: #f2f2f2;
     }
   }
 
@@ -95,5 +101,5 @@
 }
 
 .margin-top-65{
-  margin-top:65px;
+  margin-top:85px;
 }
