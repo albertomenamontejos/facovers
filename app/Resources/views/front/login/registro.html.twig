@@ -2,9 +2,10 @@
 
 {% block section  %}
     <div class="pagina-registro">
+
         <div class="form">
 {#            {{ dump(form) }}#}
-            {{ include('front/templates/login_registro.html.twig') }}
+            {{ include('front/login/login_registro.html.twig') }}
 
             {{ form_start(form,{attr: {class: 'form-registro'} }) }}
 

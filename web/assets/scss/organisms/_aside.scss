@@ -35,8 +35,8 @@
   .seguidores{
     display:flex;
     flex-direction:column;
-    min-height:400px;
-    max-height: 500px;
+    min-height:48%;
+    max-height:48%;
     .mis-seguidores{
       display:flex;
       justify-content: flex-start;
@@ -75,13 +75,18 @@
 
   .botones{
     position:absolute;
-    top:93%;
+    top:95%;
     width:100%;
+    min-height: 40px;
+    overflow: hidden;
+    background: $primario-oscuro;
     .menu{
-      padding-top:22px;
       display:flex;
       justify-content: space-evenly;
       flex-flow:row nowrap;
+      align-items: center;
+      min-height: 40px;
+
       .icon{
         //FCE0FC iconos aside
         display:flex;
@@ -109,5 +114,56 @@
 .linea{
   border-bottom:2px solid #6f4c6c;
 }
+.eventos{
+  overflow: hidden;
+  .caja_eventos{
+    overflow-y: scroll;
+    height: 288px;
+    user-select: none;
+    cursor:pointer;
+    margin-right: 5px;
+    margin-top:10px;
+    .evento{
+      margin:5px;
+      margin-top:0;
+      margin-left:10px;
+      margin-bottom:10px;
+      //border-radius:2px;
+      //border:1px solid #817e7e;
+      background:#714786;
+      border-radius:3px 3px 0 0;
 
+      a{
+        text-decoration:none;
+        font-size: 12px;
+      }
+      .titulo_name{
+        padding:3px 0 3px 8px;
+        font-size: 15px;
+        color: rgb(245, 245, 245);
+        letter-spacing: 1px;
+        border-bottom:1px solid #000;
+        text-align: center;
+        small{
+          color: rgb(245, 245, 245);
+          font-size:12px;
+        }
+      }
+      .titulo{
+        padding:12px;
+        text-transform: uppercase;
+        color: rgb(218, 218, 218);
+        font-size:14px;
+        letter-spacing: 1px;
+      }
+      .num_assistants{
+        text-align: right;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        color: rgb(245, 245, 245);
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
 

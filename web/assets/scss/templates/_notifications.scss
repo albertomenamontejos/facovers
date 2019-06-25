@@ -1,0 +1,42 @@
+.page_notifications{
+  h3{
+    padding:20px;
+    font-size: 22px;
+    color: #626262;
+    margin-top:10px;
+    background: #fff;
+    font-weight: normal;
+    letter-spacing:1px;
+  }
+  .notifications{
+    background: #fff;
+    display:flex;
+    flex-direction:column;
+    width:70%;
+    margin:0 auto;
+    margin:20px auto;
+
+    .notification{
+      border-bottom:1px solid #dedede;
+      padding:5px;
+      display:flex;
+      align-items: center;
+      .photo{
+        margin-left:10px;
+        img{width:40px;border-radius:100%;}
+      }
+      .contenido{
+        p{
+          letter-spacing: 1px;
+          color: #393939;
+          margin-left:10px;
+          a{
+            font-weight: bold;
+            text-decoration: none;
+            color:black;
+          }
+        }
+      }
+    }
+  }
+}

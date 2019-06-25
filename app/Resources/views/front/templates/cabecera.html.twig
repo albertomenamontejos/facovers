@@ -1,0 +1,15 @@
+<div class="cabecera" id="cabecera">
+    <input type="hidden" name="id_user" value="{{ usuario.id }}">
+    <div class="caja-photo">
+        {% if usuario.photo == null %}
+            <img class="photo"
+                 src="https://ui-avatars.com/api/?size=34&name={{ usuario.username }}&color=6c6c6c&background=f2f2f2"
+                 alt="">
+        {% else %}
+            <img class="photo" src="{{ usuario.photo.enlace }}" alt="">
+        {% endif %}
+    </div>
+    <div class="nombre">
+        <a href="{{ path('perfil',{'username':usuario.username}) }}">{{ usuario.username }}</a>
+    </div>
+</div>

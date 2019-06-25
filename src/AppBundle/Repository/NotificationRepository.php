@@ -17,7 +17,7 @@ class NotificationRepository extends \Doctrine\ORM\EntityRepository
                 'SELECT n 
                 FROM AppBundle:Notification n
                 WHERE n.user in ' .$seguidores.'
-                 ORDER BY n.id DESC'
+                ORDER BY n.id DESC'
             )
             ->setFirstResult($offset)
             ->setMaxResults($max)

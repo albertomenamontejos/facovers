@@ -38,7 +38,7 @@
   }
 
   .notifications{
-    text-align: center;
+    text-align: right;
     width:200px;
     position:relative;
     .icon-notification{
@@ -52,8 +52,9 @@
       border-radius:100%;
       min-width:18px;
       position:absolute;
-      left:57%;
       top:0;
+      right: -8%;
+      text-align: center;
     }
   }
 }

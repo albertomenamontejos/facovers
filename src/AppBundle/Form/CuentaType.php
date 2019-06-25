@@ -24,12 +24,12 @@ class CuentaType extends AbstractType
                     'style' => 'width:100%'
                 )
             ])
-            ->add('username', TextType::class,[
-                'label' => false,
-                'attr' => array(
-                    'placeholder' => 'Nombre usuario',
-                    'style' => 'width:100%'
-                )])
+//            ->add('username', TextType::class,[
+//                'label' => false,
+//                'attr' => array(
+//                    'placeholder' => 'Nombre usuario',
+//                    'style' => 'width:100%'
+//                )])
             ->add('email', EmailType::class,[
                 'label' => false,
                 'attr' => array(

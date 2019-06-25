@@ -3,25 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Notification
+ * Notificacion
  *
- * @ORM\Table(name="Notification")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @Vich\Uploadable
+ * @ORM\Table(name="notification")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\NotificationRepository")
  */
-class Notification{
-
+class Notification
+{
     /**
      * @var int
      *
@@ -31,17 +21,14 @@ class Notification{
      */
     private $id;
 
-    /**
-     * @var integer|null
-     * @ORM\Column(name="id_followed",type="integer")
-     */
-   private $id_followed;
+    /** @ORM\Column(name="type",type="string", columnDefinition="enum('video', 'like','comment','event')") */
+    private $type;
 
     /**
      * @var string|null
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @ORM\Column(name="content", type="string",nullable=true)
      */
-   private $content;
+    private $content;
 
     /**
      * Many features have one product. This is the owning side.
@@ -50,8 +37,18 @@ class Notification{
      */
     private $user;
 
+    /**
+     * @ORM\Column(name="to_user", type="integer")
+     */
+    private $toUser;
+
+    public function __construct() {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
+     * Get id.
+     *
      * @return int
      */
     public function getId()
@@ -60,14 +57,23 @@ class Notification{
     }
 
     /**
-     * @param int $id
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User|null $user
+     *
+     * @return Notification
      */
-    public function setId($id)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->id = $id;
+        $this->user = $user;
+
+        return $this;
     }
+
     /**
-     * @return mixed
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User|null
      */
     public function getUser()
     {
@@ -75,23 +81,47 @@ class Notification{
     }
 
     /**
-     * @return int|null
+     * Set type.
+     *
+     * @param string $type
+     *
+     * @return Notification
      */
-    public function getIdFollowed()
+    public function setType($type)
     {
-        return $this->id_followed;
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
-     * @param int|null $id_followed
+     * Get type.
+     *
+     * @return string
      */
-    public function setIdFollowed($id_followed)
+    public function getType()
     {
-        $this->id_followed = $id_followed;
+        return $this->type;
     }
 
     /**
-     * @return string|null
+     * Set content.
+     *
+     * @param string $content
+     *
+     * @return Notification
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content.
+     *
+     * @return string
      */
     public function getContent()
     {
@@ -99,19 +129,26 @@ class Notification{
     }
 
     /**
-     * @param string|null $content
+     * Set toUser.
+     *
+     * @param int $toUser
+     *
+     * @return Notification
      */
-    public function setContent($content)
+    public function setToUser($toUser)
     {
-        $this->content = $content;
+        $this->toUser = $toUser;
+
+        return $this;
     }
 
     /**
-     * @param mixed $user
+     * Get toUser.
+     *
+     * @return int
      */
-    public function setUser($user)
+    public function getToUser()
     {
-        $this->user = $user;
+        return $this->toUser;
     }
-
 }

@@ -3,10 +3,26 @@
 {% extends 'front/layout/simple_layout.html.twig' %}
 {% block section %}
     <div class="pagina-login" >
-        <div class="form">
-            {{ include('front/templates/login_registro.html.twig') }}
+
+    <div class="form">
 
             <form action="{{ path('login') }}" method="post" clasS="formulario">
+                <div class="inicio_sesion">
+                    <div class="capa">
+                        <div class="botones">
+                            <a href="{{ path('user_registration') }}">
+                                <div class="btn">
+                                    Registrate
+                                </div>
+                            </a>
+                            <a href="{{ path('login') }}">
+                                <div class="btn">
+                                    Iniciar sesion
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Nombre de usuario"/>
                 <input type="password" id="password" name="_password" placeholder="Introduce su contraseña"/>

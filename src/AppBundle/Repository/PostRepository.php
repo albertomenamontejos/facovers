@@ -11,13 +11,14 @@ namespace AppBundle\Repository;
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function listPostOfFollowers($array_idseguidores,$offset = 0, $max = 9){
-        $seguidores = '('. implode($array_idseguidores,',') . ')';
+    public function listPostOfFollowers($array_idseguidores, $offset = 0, $max = 9)
+    {
+        $seguidores = '(' . implode($array_idseguidores, ',') . ')';
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT p 
                 FROM AppBundle:Post p
-                WHERE p.user_id in ' .$seguidores.'
+                WHERE p.user_id in ' . $seguidores . '
                  ORDER BY p.id DESC'
             )
             ->setFirstResult($offset)
@@ -26,7 +27,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    public function listPosts($offset,$max=9)
+    public function listPosts($offset, $max = 9)
     {
         return $this->getEntityManager()
             ->createQuery(
@@ -39,30 +40,33 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function getPostById($id_post){
-       return $this->getEntityManager()
+    public function getPostById($id_post)
+    {
+        return $this->getEntityManager()
             ->createQuery(
                 'SELECT p 
                 FROM AppBundle:Post p
                 WHERE p.id = :id'
             )
-           ->setParameter('id',$id_post)
-           ->getOneOrNullResult();
+            ->setParameter('id', $id_post)
+            ->getOneOrNullResult();
     }
 
-    public function findEntitiesByString($str){
+    public function findEntitiesByString($str)
+    {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT p 
                 FROM AppBundle:Post p 
-                WHERE p.song LIKE :str
+                WHERE p.song LIKE :str OR p.artist LIKE :str
                 ORDER BY p.id DESC'
             )
-            ->setParameter('str','%'.$str.'%')
+            ->setParameter('str', '%' . $str . '%')
             ->getResult();
     }
 
-    public function deleteComment($id_comment){
+    public function deleteComment($id_comment)
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $query = $qb->delete('AppBundle:Comment', 'c')
@@ -72,7 +76,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         $query->execute();
     }
 
-    public function countPosts($user_id){
+    public function countPosts($user_id)
+    {
         return $this->createQueryBuilder('p')
             ->select('count(p.id)')
             ->where('p.user_id = :user_id')
@@ -81,7 +86,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getPostsByUserId($user_id,$offset,$max = 9){
+    public function getPostsByUserId($user_id, $offset, $max = 9)
+    {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT p 
@@ -89,13 +95,14 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
                 WHERE p.user_id = :user_id
                 ORDER BY p.id DESC'
             )
-            ->setParameter('user_id',$user_id)
+            ->setParameter('user_id', $user_id)
             ->setFirstResult($offset)
             ->setMaxResults($max)
             ->getResult();
     }
 
-    public function deletePost($id_post){
+    public function deletePost($id_post)
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $query = $qb->delete('AppBundle:Post', 'p')
@@ -105,7 +112,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         $query->execute();
     }
 
-    public function deleteCommentsOfPost($id_post){
+    public function deleteCommentsOfPost($id_post)
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $query = $qb->delete('AppBundle:Comment', 'c')
@@ -114,7 +122,9 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
         $query->execute();
     }
-    public function deleteLikesOfPost($id_post){
+
+    public function deleteLikesOfPost($id_post)
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $query = $qb->delete('AppBundle:posts_likes', 'p')
@@ -123,6 +133,43 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         $query->execute();
+    }
+
+    public function listPostByArrayId($array_id, $offset = 0, $max = 9)
+    {
+        $users = '(' . implode($array_id, ',') . ')';
+
+        if (count($array_id) == 0) {
+            return [];
+        }elseif(count($array_id)== 1){
+            $sql = 'SELECT p 
+                FROM AppBundle:Post p
+                WHERE p.user_id = ' . $array_id[0] . '
+                ORDER BY p.id DESC';
+        }elseif (count($array_id) > 1) {
+            $sql = 'SELECT p 
+                FROM AppBundle:Post p
+                WHERE p.user_id in ' . $users . '
+                ORDER BY p.id DESC';
+        }
+        return $this->getEntityManager()
+            ->createQuery($sql)
+            ->setFirstResult($offset)
+            ->setMaxResults($max)
+            ->getResult();
+    }
+
+    public function findEntitiesByHastag($str)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT p 
+                FROM AppBundle:Post p 
+                WHERE p.description LIKE :str 
+                ORDER BY p.id DESC'
+            )
+            ->setParameter('str', '%' . $str . '%')
+            ->getResult();
     }
 
 }

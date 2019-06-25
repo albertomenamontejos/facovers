@@ -1,0 +1,75 @@
+<div class="perfil">
+    <div class="izq">
+        <div class="izq-izq">
+            <div class="photo">
+                {% if user.photo == null %}
+                    <img class="photo" src="https://ui-avatars.com/api/?size=180&name={{ user.username }}&color=6c6c6c&background=f2f2f2" alt="">
+                {% else %}
+                    <img class="photo" src="{{ photo }}" alt="">
+                {% endif %}
+            </div>
+            <div class="nombre-bio">
+                <div class="nombre">
+                    <p class="nombre">{{ user.username }}</p>
+                </div>
+                <div class="bio">
+                    {% if user.bio != null %}
+                        <p class="bio">{{ user.bio }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="izq-der">
+            {% if app.user.id is defined%}
+                {% if app.user.id != user.id %}
+                    <div class="btn-follow-perfil">
+                        {% if user.isfollowed %}
+                            <button class="unfollow-user-perfil">Dejar de seguir</button>
+                        {% else %}
+                            <button class="follow-user-perfil">Seguir</button>
+                        {% endif %}
+                    </div>
+                    <div class="privados">
+                        <button class="btn-mensaje">Mensaje privado</button>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="btn-follow-perfil">
+                    <button class="follow-user-perfil">Seguir</button>
+                </div>
+                <div class="privados">
+                    <button class="btn-mensaje">Mensaje privado</button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="izq-final">
+
+            <div class="estadisticas">
+                <div class="estadistica est-videos" id="est-videos">
+                    <p class="nom-estadistica">Videos</p>
+                    <p  class="result">{{ num_posts }}</p>
+                </div>
+                <div class="estadistica est-seguidos" id="est-seguidos">
+                    <p class="nom-estadistica">Seguidos</p>
+                    <p  class="result">{{ num_followed }}</p>
+                </div>
+                <div class="estadistica est-seguidores" id="est-seguidores">
+                    <p class="nom-estadistica">Seguidores</p>
+                    <p  class="result">{{ num_followers }}</p>
+                </div>
+            </div>
+            {% if app.user.id is defined %}
+                {% if app.user.id == user.id %}
+                    <div class="botones-crear">
+                        <button class="btn btn-subir" id="btn_subir_video">Subir video</button>
+                        <button class="btn btn-crearEvento" id="btn_crear_evento">Crear eventos</button>
+                        <a href="{{ path('configuracion') }}"><button class="btn btn-configuracion" id="configuracion">Configuración</button></a>
+
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,10 +1,15 @@
 import {reloadVideos} from './app';
 
 $(document).on('click','.navdot',function(){
-    if($(this).siblings('.menu-navdot').is(":visible")){
-        $(this).siblings('.menu-navdot').hide();
+    let id_user_session = $(this).parents('.post').find('input[name=id_user_session]').val();
+    if(id_user_session){
+        if($(this).siblings('.menu-navdot').is(":visible")){
+            $(this).siblings('.menu-navdot').hide();
+        }else{
+            $(this).siblings('.menu-navdot').show();
+        }
     }else{
-        $(this).siblings('.menu-navdot').show();
+        $('#popup1').show();
     }
 });
 

@@ -25,7 +25,9 @@
         <main id="index" class="page-content">
             <aside class="aside">
                 {% block aside %}
+                    {% if app.user.id is defined %}
                     {{ include('front/templates/nav_aside.html.twig') }}
+                    {% endif %}
                 {% endblock %}
             </aside>
             <section class="section" id="section">

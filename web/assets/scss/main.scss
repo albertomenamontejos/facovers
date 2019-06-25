@@ -1,6 +1,4 @@
 /* assets/css/app.css */
-
-
 //General
 @import 'general/normalize';
 @import 'general/variables';
@@ -10,6 +8,7 @@
 @import 'atoms/icons';
 //Molecules
 @import 'molecules/post';
+@import 'molecules/popup';
 //Organisms
 @import 'organisms/nav';
 @import 'organisms/aside';
@@ -21,7 +20,12 @@
 @import 'templates/perfil';
 @import 'templates/explorar';
 @import 'templates/config';
+@import 'templates/events';
+@import 'templates/notifications';
+@import 'templates/mensajes';
+
 //Pages
+
 *{
   box-sizing:border-box ;
   margin:0;

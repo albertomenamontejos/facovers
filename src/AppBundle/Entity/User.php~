@@ -40,43 +40,13 @@ class User implements UserInterface
      */
     private $photo;
 
-    /**
-     * One product has many features. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
-     */
-    private $notifications;
 
     /**
-     * @return mixed
+     * Many Users have Many Groups.
+     * @ORM\ManyToMany(targetEntity="Chat", inversedBy="users")
+     * @ORM\JoinTable(name="users_chat")
      */
-    public function getNotifications()
-    {
-        return $this->notifications;
-    }
-
-    /**
-     * @param mixed $notifications
-     */
-    public function setNotifications($notifications)
-    {
-        $this->notifications = $notifications;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @param mixed $photoName
-     */
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
-    }
+    private $chats;
 
     /**
      * @var string
@@ -171,8 +141,8 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * Un usuario puede crear muchos eventos
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="user_id")
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
      */
     private $events;
 
@@ -182,13 +152,22 @@ class User implements UserInterface
      */
     private $posts_likes;
 
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
+     */
+    private $notifications;
+
+
     public function __construct()
     {
         $this->followed = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->posts_likes = new ArrayCollection();
         $this->events = new ArrayCollection();
-//        $this->notifications = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->chats = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles = ['ROLE_USER'];
     }
 
@@ -335,6 +314,22 @@ class User implements UserInterface
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photoName
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
     //MÉTODOS RELACIONES
 
     /**
@@ -385,42 +380,6 @@ class User implements UserInterface
             }
         }
         return false;
-    }
-
-    /**
-     * Add event.
-     *
-     * @param \AppBundle\Entity\Event $event
-     *
-     * @return User
-     */
-    public function addEvent(\AppBundle\Entity\Event $event)
-    {
-        $this->events[] = $event;
-
-        return $this;
-    }
-
-    /**
-     * Remove event.
-     *
-     * @param \AppBundle\Entity\Event $event
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeEvent(\AppBundle\Entity\Event $event)
-    {
-        return $this->events->removeElement($event);
-    }
-
-    /**
-     * Get events.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
 
 
@@ -509,4 +468,132 @@ class User implements UserInterface
     {
         return $this->comments;
     }
+
+    /**
+     * Add event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return User
+     */
+    public function addEvent(\AppBundle\Entity\Event $event)
+    {
+        $this->events[] = $event;
+
+        return $this;
+    }
+
+    /**
+     * Remove event.
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEvent(\AppBundle\Entity\Event $event)
+    {
+        return $this->events->removeElement($event);
+    }
+
+    /**
+     * Get events.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+    /**
+     * @return mixed
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * @param mixed $notifications
+     */
+    public function setNotifications($notifications)
+    {
+        $this->notifications = $notifications;
+    }
+
+    /**
+     * Add notification.
+     *
+     * @param \AppBundle\Entity\Notification $notification
+     *
+     * @return User
+     */
+    public function addNotification(\AppBundle\Entity\Notification $notification)
+    {
+        $this->notifications[] = $notification;
+
+        return $this;
+    }
+
+    /**
+     * Remove notification.
+     *
+     * @param \AppBundle\Entity\Notification $notification
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeNotification(\AppBundle\Entity\Notification $notification)
+    {
+        return $this->notifications->removeElement($notification);
+    }
+
+    /**
+     * Add chat.
+     *
+     * @param \AppBundle\Entity\Chat $chat
+     *
+     * @return User
+     */
+    public function addChat(\AppBundle\Entity\Chat $chat)
+    {
+        $this->chats[] = $chat;
+
+        return $this;
+    }
+
+    /**
+     * Remove chat.
+     *
+     * @param \AppBundle\Entity\Chat $chat
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeChat(\AppBundle\Entity\Chat $chat)
+    {
+        return $this->chats->removeElement($chat);
+    }
+
+    /**
+     * Get chats.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChats()
+    {
+        return $this->chats;
+    }
+
+//    /**
+//     * getChatsByIdUser
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getChatsByIdUser($id_user)
+//    {
+//        foreach($this->chats as $chat){
+//            if($chat->getUser()->getId() == $id_user){
+//                return $chat;
+//            }
+//        }
+//        return null;
+//    }
 }

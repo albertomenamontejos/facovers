@@ -1,6 +1,59 @@
 {% extends '/front/layout/simple_layout.html.twig' %}
 
 {% block section %}
-    {{ include('front/templates/login_registro.html.twig') }}
-    {{ include('front/templates/posts.html.twig') }}
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2>Inicia sesión para interactuar</h2>
+            <a id="cerrar_popup" class="close" href="#">&times;</a>
+            <div class="content">
+                Deja tu comentario e interactua con tus artistas favoritos.
+                <div class="inicio_sesion">
+                    <div class="capa">
+                        <div class="botones">
+                            <a href="{{ path('user_registration') }}">
+                                <div class="btn">
+                                    Registrate
+                                </div>
+                            </a>
+                            <a href="{{ path('login') }}">
+                                <div class="btn">
+                                    Iniciar sesion
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ include('front/login/login_registro.html.twig') }}
+    <div class="page-explorar">
+        <div class="seccion mas-comentados">
+            <div class="titulo-explorar">
+                <h3>Los más comentados</h3>
+            </div>
+            <div class="posts" id="posts_comentados">
+                <input type="hidden" id="offset_comentados" value="3">
+                {% set posts = posts_comments  %}
+                {{ include('front/templates/posts.html.twig') }}
+            </div>
+            <div class="caja-vermas">
+                <button class="btn-vermas" id="ver_mas_comentados">Ver más videos</button>
+            </div>
+        </div>
+        <div class="seccion mas-likes">
+            <div class="titulo-explorar">
+                <h3>Los más gustados</h3>
+            </div>
+            <div class="posts" id="posts_likes">
+                <input type="hidden" id="offset_likes" value="3">
+                {% set posts = posts_comments  %}
+                {{ include('front/templates/posts.html.twig') }}
+            </div>
+            <div class="caja-vermas">
+                <button class="btn-vermas" id="ver_mas_likes">Ver más videos</button>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

@@ -1,15 +1,21 @@
 'use strict';
 // $(document).ready(function(){
 
-$(document).on('click', '.comments', function () {
-    let caja_comentarios = $(this).parents('.post').find('.box-comments');
-    if (caja_comentarios.is(':hidden')) {
-        $(this).parents('.post').css('max-height', 'none');
-        caja_comentarios.show();
-    } else {
-        $(this).parents('.post').css('max-height', '345px');
-        caja_comentarios.hide();
+$(document).on('click', '.icon-comments', function () {
+    let id_user_session = $(this).parents('.post').find('input[name=id_user_session]').val();
+    if(id_user_session){
+        let caja_comentarios = $(this).parents('.post').find('.box-comments');
+        if (caja_comentarios.is(':hidden')) {
+            $(this).parents('.post').css('max-height', 'none');
+            caja_comentarios.show();
+        } else {
+            $(this).parents('.post').css('max-height', '345px');
+            caja_comentarios.hide();
+        }
+    }else{
+        $('#popup1').show();
     }
+
 });
 
 $(document).on('click', '.button-comments', function () {
@@ -43,7 +49,8 @@ $(document).on('click', '.button-comments', function () {
                                 <p>${response['comment-content']}</p>
                             </div>`);
                 caja_comentarios.find('.comment-user').val('');
-
+                let num_comentarios = $(caja_comentarios).parents('.post').find('.comments .num_comments').text();
+                $(caja_comentarios).parents('.post').find('.comments .num_comments').text((+num_comentarios)+1);
             } else {
                 $(this).parents('.box-comments').find('#msg_error').show(0).delay(5000).hide(0);
             }
@@ -66,7 +73,10 @@ $(document).on('click', '.delete-comment', function () {
         },
         success: function (response) {
             if (response['delete']) {
+                let num_comentarios = $(comentario).parents('.post').find('.comments .num_comments').text();
+                $(comentario).parents('.post').find('.comments .num_comments').text((+num_comentarios)-1);
                 $(comentario).remove();
+
             }
         }
     });

@@ -13,6 +13,12 @@
     <div class="eventos">
         <p class="titulo">EVENTOS</p>
         <div class="linea"></div>
+        <div class="caja_eventos">
+        {% if eventos_aside is defined  %}
+                {{ include('front/templates/nav_eventos.html.twig') }}
+        {% endif %}
+        </div>
+
     </div>
     <div class="botones">
         <div class="menu">

@@ -15,6 +15,9 @@ require('../js/perfil.js');
 require('../js/search.js');
 require('../js/explorar.js');
 require('../js/config.js');
+require('../js/event.js');
+require('../js/chat/chat.js');
+// require('../js/chat/user.js');
 
 //MEnsaje si ha subido un video,por ejemplo.
 $('.mensaje-confirmacion-ajax').fadeIn(800).delay(3000).fadeOut(800);
@@ -22,7 +25,7 @@ $('.mensaje-confirmacion-ajax').fadeIn(800).delay(3000).fadeOut(800);
 export function reloadAside(){
     $('#lista_seguidores').empty();
     $.ajax({
-        url:'ajax/user_aside',
+        url:'/ajax/user_aside',
         success:function(response){
             if(response['aside'].html){
                 $('#aside_lista_seguidores').html(response['aside'].html)
@@ -34,7 +37,7 @@ export function reloadAside(){
 export function reloadStadistics(user_id){
     $('.est-seguidores .result').empty();
     $.ajax({
-        url:'ajax/reload_stadistics',
+        url:'/ajax/reload_stadistics',
         data:{
             user_id:user_id
         },
@@ -49,7 +52,7 @@ export function reloadStadistics(user_id){
 export function reloadVideos(user_id){
     $('.est-videos .result').empty();
     $.ajax({
-        url:'ajax/reload_videos',
+        url:'/ajax/reload_videos',
         data:{
             user_id:user_id
         },
@@ -64,7 +67,7 @@ export function reloadVideos(user_id){
 export function reloadFollowers(user_id){
     $('#lista_seguidores').empty();
     $.ajax({
-        url:'ajax/reload_followers',
+        url:'/ajax/reload_followers',
         type:'post',
         data:{
           user_id:user_id
@@ -90,8 +93,21 @@ export function reloadFollowers(user_id){
                 `;
                 });
             }
-
             $('#lista_seguidores').html(html);
+        }
+    });
+}
+export function reloadEvents(user_id){
+    let evento = $('.caja_eventos');
+    $.ajax({
+        url:'/ajax/reload_events',
+        type:'post',
+        data:{
+          user_id:user_id
+        },
+        success:function(response){
+            evento.empty();
+            evento.append(response['html']);
         }
     });
 }
@@ -115,10 +131,9 @@ export function cambiarClases(id_user,follow){
     }
 }
 
-export function postAjaxIndex(offset){
-//Solo sacamos post de seguidores
-
-}
+$(document).on('click','#cerrar_popup',function(){
+    $('#popup1').hide();
+});
 
 //PAGINACION CON SCROLL
 // $(window).scroll(function() {

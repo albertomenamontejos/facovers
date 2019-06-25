@@ -2,19 +2,28 @@
 {% for post in posts %}
         <div class="post" id="post_{{ post.id }}">
             <input type="hidden" name="id_user" value="{{ post.id_user }}">
-            <input type="hidden" name="id_user_session" value="{{ app.user.id }}">
+            {% if app.user.id is defined %}
+                <input type="hidden" name="id_user_session" value="{{ app.user.id }}">
+            {% endif %}
             <input type="hidden" name="id_post" value="{{ post.id }}">
             <div class="header">
                 <div class="user">
                     <a href="{{ path('perfil',{'username': post.name_user}) }}">{{ post.name_user }}</a>
                 </div>
-                {% if app.user.id != post.id_user  and app.request.requestUri != "/#{post.name_user}" %}
-                    {% if not post.followed %}
-                        <div class="follow follow_{{ post.id_user }}">
-                            <button class="follow-user">Seguir</button>
-                        </div>
+                {% if app.user.id is defined %}
+                    {% if app.user.id != post.id_user  and app.request.requestUri != "/#{post.name_user}" %}
+                        {% if not post.followed %}
+                            <div class="follow follow_{{ post.id_user }}">
+                                <button class="follow-user">Seguir</button>
+                            </div>
+                        {% else %}
+                            <div class="unfollow follow_{{ post.id_user }}">
+                                <button class="follow-user">Dejar de seguir</button>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
+
             </div>
             <div class="video">
                 <video controls>
@@ -40,49 +49,63 @@
             </div>
             <div class="interacciones">
                 <div class="like">
-                    {% if post.liked %}
-                        <i id="icon_{{ post.id }}" class="icon-like icon-cor-rojo" ></i>
-                    {% else %}
+                    {% if app.user.id is defined %}
+
+                        {% if post.liked %}
+                            <i id="icon_{{ post.id }}" class="icon-like icon-cor-rojo" ></i>
+                        {% else %}
+                            <i id="icon_{{ post.id }}" class="icon-like icon-cor"></i>
+                        {% endif %}
+                    {% else  %}
                         <i id="icon_{{ post.id }}" class="icon-like icon-cor"></i>
                     {% endif %}
+
+                    <p class="num_likes">{{ post.likes|length }}</p>
 
                 </div>
                 <div class="comments">
                     <i class="icon icon-comments"></i>
+                    <p class="num_comments">{{ post.comments|length }}</p>
                 </div>
                 <div class="navdot">
                     <i class="icon icon-navdot"></i>
                 </div>
                 <div class="menu-navdot" style="display:none">
-                    {% if app.user.id == post.id_user  %}
-                        <div class="fila" id="borrar_video">
-                            <p>Borrar video</p>
-                        </div>
-                    {% else %}
-                        <div class="fila" id="denunciar_video">
-                            <p>Denunciar video</p>
-                        </div>
+                    {% if app.user.id is defined %}
+
+                        {% if app.user.id == post.id_user  %}
+                            <div class="fila" id="borrar_video">
+                                <p>Borrar video</p>
+                            </div>
+                        {% else %}
+                            <div class="fila" id="denunciar_video">
+                                <p>Denunciar video</p>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
             <div class="box-comments">
                 <div class="comments">
-                    {% if post.comments.count %}
-                        {% for comment in post.comments %}
-                            <div class="comment">
-                                <input type="hidden" name="id_comment" value="{{ comment.id }}">
-                                <input type="hidden" name="id_post" value="{{ post.id }}">
-                                <input type="hidden" name="id_user_comment" value="{{ comment.id_user_comment }}">
-                                <div class="enlaces">
-                                    <a href="{{ path('perfil',{'username': comment.username_comment}) }}">{{ comment.username_comment }}</a>
-                                {% if comment.id_user_comment == app.user.id or
-                                        comment.id_user_post == app.user.id%}
-                                        <a href="#" class="delete-comment">Borrar</a>
-                                    {% endif %}
+                    {% if app.user.id is defined %}
+
+                        {% if post.comments.count %}
+                            {% for comment in post.comments %}
+                                <div class="comment">
+                                    <input type="hidden" name="id_comment" value="{{ comment.id }}">
+                                    <input type="hidden" name="id_post" value="{{ post.id }}">
+                                    <input type="hidden" name="id_user_comment" value="{{ comment.id_user_comment }}">
+                                    <div class="enlaces">
+                                        <a href="{{ path('perfil',{'username': comment.username_comment}) }}">{{ comment.username_comment }}</a>
+                                    {% if comment.id_user_comment == app.user.id or
+                                            comment.id_user_post == app.user.id%}
+                                            <a href="#" class="delete-comment">Borrar</a>
+                                        {% endif %}
+                                    </div>
+                                    <p>{{ comment.content }}</p>
                                 </div>
-                                <p>{{ comment.content }}</p>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="buttons">

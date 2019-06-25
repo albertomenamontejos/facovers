@@ -21,13 +21,25 @@ class IndexController extends Controller
         $em = $this->getDoctrine()->getManager();
         $requestString = $request->get('q');
         if(strlen($requestString) != 0 ){
-            $posts = $em->getRepository('AppBundle:Post')->findEntitiesByString($requestString);
-        }else{
-            $posts= $this->getDoctrine()
-                ->getRepository(Post::class)
-                ->listPosts();
+            $suf = substr($requestString,0,1);
+            $cadena = substr($requestString,1,strlen($requestString));
+            if( $suf != '@' && $suf != '#'){
+                $posts = $em->getRepository('AppBundle:Post')->findEntitiesByString($requestString);
+
+            }elseif($suf == '@'){
+                $array_users = $em->getRepository('AppBundle:User')->findEntitiesByString($cadena);
+
+                $array_id_users = [];
+                foreach($array_users as $user_id){
+                $array_id_users[] = $user_id['id'];
+                }
+                $posts = $em->getRepository('AppBundle:Post')->listPostByArrayId($array_id_users);
+            }elseif($suf != '#'){
+                $posts = $em->getRepository('AppBundle:Post')->findEntitiesByHastag($requestString);
+            }
         }
-        if(!$posts){
+
+        if(empty($posts) || !$posts){
             $result['posts']['error'] = array(
                 "code" => 200,
                 "html" => $this->render('front/error/error_posts_ajax.html.twig',[

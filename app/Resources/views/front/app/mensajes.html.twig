@@ -1,0 +1,67 @@
+{% extends '/front/layout/layout.html.twig' %}
+{% block section %}
+    <div class="page-msj">
+        <div class="caja_mensajes">
+            <div class="conversaciones_activas" id="conversaciones_activas">
+                <div class="head">
+                    <button class="button" id="ver_usuarios">+</button>
+                    <p>Seleccione un usuario</p>
+                </div>
+                <div class="mis_seguidores">
+                    {% if chats_activos is defined %}
+                        {% for user in chats_activos %}
+                            <div class="seguidor">
+                                <input type="hidden" name="id_user" value="{{ user.id }}">
+                                {% if user.photo == null %}
+                                    <img class="photo"
+                                         src="https://ui-avatars.com/api/?size=34&name={{ user.username }}&color=6c6c6c&background=f2f2f2"
+                                         alt="">
+                                {% else %}
+                                    <img class="photo" src="{{ user.photo.enlace }}" alt="">
+                                {% endif %}
+                                <p>{{ user.username }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="lista_seguidores" style="display:none" id="lista_seguidores">
+                <div class="head">
+                    <button class="button" id="volver_chat"><</button>
+                    <p>Volver</p>
+                </div>
+                <span class="icon"><i class="fa fa-search"></i></span>
+                <input type="search" id="buscar_seguidores" placeholder="Buscar usuario">
+                <div class="mis_seguidores">
+                    {% set mostrar=true %}
+                    {% if chats_inactivos is defined %}
+                        {% for seguidor in chats_inactivos %}
+                            <div class="seguidor_inactivo">
+                                <input type="hidden" name="id_user" value="{{ seguidor.id }}">
+                                {% if seguidor.photo == null %}
+                                    <img class="photo"
+                                         src="https://ui-avatars.com/api/?size=34&name={{ seguidor.username }}&color=6c6c6c&background=f2f2f2"
+                                         alt="">
+                                {% else %}
+                                    <img class="photo" src="{{ seguidor.enlace }}" alt="">
+                                {% endif %}
+                                <p>{{ seguidor.username }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="conversacion">
+
+                <div id="conversacion">
+
+                </div>
+
+                <div class="formulario" style="display:none;">
+                        <textarea class="mensaje_usuario" name="texto_mensaje" id="textarea" cols="30" rows="10" placeholder="Escribe aquí"></textarea>
+                        <span class="icon icon-enviar" id="enviar_mensaje"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

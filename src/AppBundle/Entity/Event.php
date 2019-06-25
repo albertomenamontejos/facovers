@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * event
@@ -14,11 +15,11 @@ class Event
 {
     //RELACIONES
     /**
-     * Muchos eventos pertenecen a un solo usuario.
+     * Many features have one product. This is the owning side.
      * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user_id;
+    private $user;
 
     /**
      * Muchos usuarios pueden asistir a muchos eventos
@@ -243,29 +244,6 @@ class Event
         return $this->photo;
     }
 
-    /**
-     * Set userId.
-     *
-     * @param \AppBundle\Entity\User|null $userId
-     *
-     * @return Event
-     */
-    public function setUserId(\AppBundle\Entity\User $userId = null)
-    {
-        $this->user_id = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId.
-     *
-     * @return \AppBundle\Entity\User|null
-     */
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
 
     /**
      * Add assistant.
@@ -279,6 +257,23 @@ class Event
         $this->assistants[] = $assistant;
 
         return $this;
+    }
+
+    /**
+     * is assistant.
+     *
+     * @param \AppBundle\Entity\User $assistant
+     *
+     * @return boolean
+     */
+    public function isAssistant(\AppBundle\Entity\User $assistant)
+    {
+        foreach($this->assistants as $user){
+            if($user->getId() == $assistant->getId()){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -301,5 +296,41 @@ class Event
     public function getAssistants()
     {
         return $this->assistants;
+    }
+
+    /**
+     * Remove all assistants.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function removeAssistants()
+    {
+        $this->assistants = [];
+    }
+
+
+
+    /**
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User|null $user
+     *
+     * @return Event
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -1,24 +1,63 @@
 {% extends '/front/layout/layout.html.twig' %}
 {% block section %}
-    <h3>Notificaciones</h3>
-    <div class="notifications">
-        {% if notifications is defined %}
-        {% for notification in notifications %}
-            <div class="notification">
-                {% if notification.content == 'video' %}
-                    {% if notification.user.id == app.user.id%}
-                        <p></p>
-                    {% else %}
-                        <p></p>
-                    {% endif %}
+    <div class="page_notifications">
+        <h3>Notificaciones</h3>
+        <div class="notifications">
+            {% if notificaciones is defined %}
+                {% for notificacion in notificaciones %}
 
-                {% elseif notification.content == 'like' %}
+                    <div class="notification">
+                        <div class="photo">
+                            {% if notificacion.user.photo == null %}
+                                <img class="photo"
+                                     src="https://ui-avatars.com/api/?size=180&name={{ notificacion.user.username }}&color=6c6c6c&background=f2f2f2"
+                                     alt="">
+                            {% else %}
+                                <img class="photo" src="{{ notificacion.user.enlace }}" alt="">
+                            {% endif %}
+                        </div>
+                        {% if notificacion.type == 'video' %}
+                            <div class="contenido">
+                                <p>
+                                    <a href="{{ path('perfil',{'username': notificacion.user.username }) }}">{{ notificacion.user.username }}
+                                    </a> ha subido un nuevo video.</p>
+                            </div>
+                        {% elseif notificacion.type == 'like' %}
 
-                {% elseif notification.content == 'comment' %}
+                            <div class="contenido">
+                                {% if app.user.id != notificacion.toUser %}
+                                    <p>
+                                        <a href="{{ path('perfil',{'username': notificacion.user.username }) }}">{{ notificacion.user.username }}
+                                        </a> le ha gustado un video de <a
+                                                href="{{ path('perfil',{'username': notificacion.toUserName }) }}">{{ notificacion.toUserName }}
+                                        </a></p>
+                                {% else %}
+                                    <p>
+                                        <a href="{{ path('perfil',{'username': notificacion.user.username }) }}">{{ notificacion.user.username }}
+                                        </a> le ha gustado un video de tuyo.</p>
+                                {% endif %}
+                            </div>
+                        {% elseif notificacion.type == 'comment' %}
 
-                {% endif %}
-            </div>
-        {% endfor %}
-        {% endif %}
+                            <div class="contenido">
+                                {% if app.user.id != notificacion.toUser %}
+
+                                    <p>
+                                        <a href="{{ path('perfil',{'username': notificacion.user.username }) }}">{{ notificacion.user.username }}
+                                        </a> ha comentado un video de <a
+                                                href="{{ path('perfil',{'username': notificacion.toUserName }) }}">{{ notificacion.toUserName }}
+                                        </a></p>
+                                {% else %}
+                                    <p>
+                                        <a href="{{ path('perfil',{'username': notificacion.user.username }) }}">{{ notificacion.user.username }}
+                                        </a> ha comentado un video tuyo</p>
+                                {% endif %}
+                            </div>
+
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

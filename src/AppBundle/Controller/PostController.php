@@ -40,6 +40,13 @@ class PostController extends Controller
             } else {
                 $post->addLike($user);
                 $em->persist($post);
+                if($user_session->getId() != $id_user){
+                    $notificacion = new Notification();
+                    $notificacion->setUser($user_session);
+                    $notificacion->setToUser($id_user);
+                    $notificacion->setType('like');
+                    $em->persist($notificacion);
+                }
                 $em->persist($user_session);
                 $em->flush();
                 $result[$post->getId()]['like'] = true;
@@ -77,16 +84,16 @@ class PostController extends Controller
             $em->persist($user_comment);
             $em->persist($post);
             $em->persist($comment);
-            $notificacion = new Notification();
-            $notificacion
-                ->setTitle('comment')
-                ->setDescription('nuevo comentario')
-                ->setRoute('homepage')
-                ->setParameters(['id'=> $post->getId()]);
-            $em->persist($notificacion);
+            if($user_session->getId() != $id_user) {
+                $notificacion = new Notification();
+                $notificacion->setUser($user_session);
+                $notificacion->setType('comment');
+                $notificacion->setContent($stringComment);
+                $notificacion->setToUser($id_user);
+                $em->persist($notificacion);
+            }
+            $em->persist($user_session);
             $em->flush();
-            $pusher = $this->get('mrad.pusher.notificaitons');
-            $pusher->trigger($notificacion);
             $result['comment'] = true;
             $result['comment-content'] = $stringComment;
             $result['comment-user'] = $user_session->getUserName();

@@ -1,0 +1,14 @@
+{% if mensajes is defined %}
+    <div class="mensajes" id="mensajes">
+        {% for mensaje in mensajes %}
+            <div class="caja_mensaje">
+                {% if mensaje.user.id != app.user.id %}
+                    <p class="mensaje_usuario">{{ mensaje.mensaje }}</p>
+                {% else %}
+                    <p class="mensaje_respuesta">{{ mensaje.mensaje }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
