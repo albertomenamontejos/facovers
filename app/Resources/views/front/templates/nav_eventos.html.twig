@@ -1,6 +1,6 @@
 {% for evento in eventos_aside %}
     <div class="evento">
-        <a href="{{ path('eventos',{'username':evento.user.name,'id':evento.id}) }}">
+        <a href="{{ path('eventos',{'username':evento.user.username,'id':evento.id}) }}">
         <div class="gris">
             <div class="titulo_name">
                 <p>{{ evento.user.name }} <small>ha creado un evento.</small>  </p>
